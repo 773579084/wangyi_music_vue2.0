@@ -1,0 +1,74 @@
+@import 'layout';
+@import 'common';
+@import 'extend';
+
+body {
+  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei",
+    "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+  /* color: #333; */
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+/* 去除常见标签默认的 margin 和 padding */
+* {
+  box-sizing: border-box;
+}
+
+/* 去除列表默认样式 */
+li {
+  list-style: none;
+}
+
+/* 去除默认的倾斜效果 */
+em,
+i {
+  font-style: normal;
+}
+
+/* 设置img的垂直对齐方式为居中对齐，去除img默认下间隙 */
+img {
+  vertical-align: middle;
+}
+
+/* 左浮动 */
+.fl {
+  float: left;
+}
+
+/* 右浮动 */
+.fr {
+  float: right;
+}
+
+/* 双伪元素清除法 */
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+#app {
+  height: 100%;
+}
+
+// main-container global css
+.app-container {
+  padding: 20px;
+}
+
+// 通用icon样式
+.icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}

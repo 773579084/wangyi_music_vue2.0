@@ -1,0 +1,83 @@
+<template>
+  <div>
+    <!-- 头部 -->
+    <headerVue :play-list-data="playListData" />
+    <!-- 导航栏 -->
+    <div class="navBar">
+      <navTableVue :nav-table-index="navTableIndex" class="nav" :isview="false" />
+      <input v-model="inputValue" placeholder="搜索歌单音乐" class="search">
+      <svg class="icon set-icon search-icon" aria-hidden="true">
+        <use xlink:href="#icon-Magnifier" />
+      </svg>
+    </div>
+    <router-view class="view" :play-list-data="playListData" />
+  </div>
+</template>
+
+<script>
+import headerVue from './components/header'
+import navTableVue from '@/components/navTable.vue'
+import { getDetail } from '@/api/playList'
+
+export default {
+    components: {
+        headerVue,
+        navTableVue
+    },
+    data() {
+      return {
+        navTableIndex: 2, // 更加路由渲染navTab
+        inputValue: null,
+        playListData: {}
+      }
+    },
+    created() {
+      // 存储表单详情Id
+      const musicListId = this.$route.fullPath.split('=')[1]
+      this.getData(musicListId)
+    },
+    methods: {
+      async getData(id) {
+        this.playListData = await (await getDetail(id)).data.playlist
+      }
+    }
+}
+</script>
+
+<style scoped lang='scss'>
+@import '@/styles/index.scss';
+
+.nav{
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+.view{
+  padding: 0 20px;
+}
+
+.navBar {
+  position: relative;
+
+  .search {
+     position: absolute;
+     top: 2px;
+     right: 0;
+     width: 200px;
+     height: 30px;
+     padding:0 30px 0 15px;
+     border-radius: 15px;
+     background-color:#f7f7f7;
+     border: none;
+     outline:none
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+  }
+
+}
+
+</style>

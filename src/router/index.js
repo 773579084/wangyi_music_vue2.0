@@ -6,25 +6,37 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-export const constantRoutes = [
+// 引入多个模块
+import foundMusicRouter from './modules/foundMusic'
+import playlistRouter from './modules/playlist'
 
+// 合并动态路由
+export const asyncRoutes = [
+  foundMusicRouter,
+  playlistRouter
+]
+
+export const constantRoutes = [
   {
     path: '/',
-    component: Layout
+    name: 'layout',
+    component: Layout,
+    redirect: '/foundMusic/recommend'
   }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 })
+  mode: 'history',
+  base: '/home',
+  scrollBehavior: () => ({ y: 0 }),
+  routes: [...constantRoutes, ...asyncRoutes]
 })
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher
 }
 
 export default router

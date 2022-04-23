@@ -1,0 +1,59 @@
+@import './common.scss';
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  padding-top: 70px;
+}
+
+body>.el-container {
+  margin-bottom: 40px;
+  height: 100%;
+}
+
+.el-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.el-card__body,
+.el-main {
+  padding: 0;
+}
+
+// 头部
+.el-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  color: $header-font-size;
+  background-color: $header-theme-color;
+  z-index: 999;
+}
+
+// 侧边栏
+.el-aside {
+  border-right: 1px solid #e0e0e0;
+  background-color: $other-theme-color;
+  padding: 0 8px 0 20px;
+}
+
+// 内容区域
+.el-main {
+  background-color: $other-theme-color;
+  color: $other-font-size;
+}
+
+// 底部
+.el-footer {
+  height: 72px;
+  border-top: 1px solid #e0e0e0;
+  background-color: $other-theme-color;
+  padding: 0 20px;
+}
