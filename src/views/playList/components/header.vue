@@ -1,7 +1,7 @@
 <template>
   <div class="big-box">
     <div class="left">
-      <img :src="playListData.coverImgUrl|imgSize('?param=200y200')" alt="">
+      <el-image lazy :src="playListData.coverImgUrl|imgSize('?param=200y200')" class="cover" />
     </div>
     <div class="right">
       <!-- 歌单标题 -->
@@ -12,7 +12,7 @@
       <!-- 歌单作者及创建时间 -->
       <div class="author-Info">
         <div class="music-list-buddha">
-          <img class="buddha" :src="playListData.creator?`${playListData.creator.avatarUrl}`:''" alt="">
+          <el-image lazy class="buddha" :src="playListData.creator?`${playListData.creator.avatarUrl}`:''" />
           <span class="author-name">{{ playListData.creator?playListData.creator.nickname:"" }}</span>
         </div>
         <div class="build-time">{{ playListData.updateTime|changeTime }}创建</div>
@@ -95,7 +95,7 @@ export default {
 
 .big-box {
     display: flex;
-    padding: 0 20px;
+    padding: 0 0 0 20px;
 
     .left {
         width: 200px;
@@ -148,16 +148,9 @@ export default {
                 height: 17px;
                 vertical-align: middle;
                 margin-left: 8px;
-                margin-top: -2px;
+                margin-top: -16px;
                 font-size: 14px;
                 overflow: hidden;
-            }
-
-            .buddha{
-                width: 30px;
-                height: 30px;
-                border-radius: 999px;
-                border-radius: 999px;
             }
         }
 
@@ -203,7 +196,7 @@ export default {
             }
 
             .font{
-                margin-top: 5px;
+                margin-top: 4px;
                 margin-right: 8px;
             }
 
@@ -222,8 +215,8 @@ export default {
             }
 
             .font{
-                margin-top: 5px;
-                margin-left: 6px;
+                margin-top: 4px;
+                margin-left: 3px;
             }
         }
     }
@@ -248,4 +241,10 @@ export default {
     font-size: 16px;
     color: $nochange-color;
  }
+
+ ::v-deep .buddha{
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+}
 </style>

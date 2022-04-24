@@ -72,3 +72,16 @@ img {
   fill: currentColor;
   overflow: hidden;
 }
+
+input,
+textarea {
+  outline: 0;
+  border: 0;
+}
+
+::v-deep .cover {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}

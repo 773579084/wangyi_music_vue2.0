@@ -19,8 +19,18 @@ export function changeTime(data) {
     const Y = date.getFullYear() + '-'
     const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
     const D = date.getDate() + ' '
-    // const h = date.getHours() + ':'
-    // const m = date.getMinutes() + ':'
-    // const s = date.getSeconds()
     return Y + M + D
+}
+
+export function changeTimeAll(data) {
+    var date = new Date(data) // 获取一个时间对象
+    const Y = date.getFullYear()
+    const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+    const D = date.getDate()
+    const h = date.getHours()
+    const h2 = h > 9 ? h : '0' + h
+    const m = date.getMinutes()
+    const m2 = h > 9 ? m : '0' + m
+    // const s = date.getSeconds()
+    return Y + '年' + M + '月' + D + '日 ' + h2 + ':' + m2
 }

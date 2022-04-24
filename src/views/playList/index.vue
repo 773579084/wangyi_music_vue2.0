@@ -5,12 +5,14 @@
     <!-- 导航栏 -->
     <div class="navBar">
       <navTableVue :nav-table-index="navTableIndex" class="nav" :isview="false" />
-      <input v-model="inputValue" placeholder="搜索歌单音乐" class="search">
-      <svg class="icon set-icon search-icon" aria-hidden="true">
+      <input v-show="$route.name==='musicAll'" v-model="inputValue" placeholder="搜索歌单音乐" class="search">
+      <svg v-show="$route.name==='musicAll'" class="icon set-icon search-icon" aria-hidden="true">
         <use xlink:href="#icon-Magnifier" />
       </svg>
     </div>
-    <router-view class="view" :play-list-data="playListData" />
+    <keep-alive>
+      <router-view v-if="isGetData" class="view" :play-list-data="playListData" />
+    </keep-alive>
   </div>
 </template>
 
@@ -28,17 +30,18 @@ export default {
       return {
         navTableIndex: 2, // 更加路由渲染navTab
         inputValue: null,
-        playListData: {}
+        playListData: {},
+        isGetData: false // 初始为false，就不会被渲染对应的子组件
       }
     },
     created() {
-      // 存储表单详情Id
-      const musicListId = this.$route.fullPath.split('=')[1]
-      this.getData(musicListId)
+      const id = localStorage.getItem('musicDetail_01') || ''
+      this.getData(id)
     },
     methods: {
       async getData(id) {
         this.playListData = await (await getDetail(id)).data.playlist
+        this.isGetData = true
       }
     }
 }
@@ -53,7 +56,8 @@ export default {
 }
 
 .view{
-  padding: 0 20px;
+  padding-left: 20px;
+  padding-bottom: 40px;
 }
 
 .navBar {

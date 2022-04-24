@@ -2,9 +2,9 @@
   <div>
     <musicTitle title="推荐MV" />
     <div class="exclusive-music">
-      <div v-for="item in exclusiveList" :key="item.id" class="box">
+      <div v-for="item in exclusiveList" :key="'recommendMV'+item.id" class="box">
         <div class="img-show">
-          <img :src="item.picUrl|imgSize('?param=365y160')">
+          <el-image class="cover" lazy :src="item.picUrl|imgSize('?param=365y160')" />
           <!-- 播放数量显示 -->
           <em class="play-number">
             <svg class="icon set-icon" aria-hidden="true">
@@ -70,15 +70,6 @@ export default {
             margin: 5px;
             color: white;
         }
-
-        .img-show{
-            height: 160px;
-            border-radius: 2%;
-
-            img {
-                border-radius: 2%;
-            }
-        }
     }
 
     .font-show {
@@ -90,7 +81,7 @@ export default {
       font-size: 18px;
 
       .music-name{
-        color: $them-font-color;
+        color: $other-font-size;
       }
 
       .author {

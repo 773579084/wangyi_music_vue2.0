@@ -1,8 +1,8 @@
-$header-theme-color: #ec4141;
+$header-theme-color: #ec4141; // 顶部栏主色调
 $header-font-size: white;
 $other-theme-color: white;
-$other-font-size: #3409f3;
-$player-button-color:red;
-$them-font-color:rgb(94, 243, 8);
+$other-font-size: #e612bb; // 控制整体content显示的字体颜色
+$player-button-color:rgb(0, 174, 255);
+$them-font-color:rgb(94, 243, 8); // 控制 layout 显示的字体颜色
 $music-progress-bar:rgb(248, 10, 10);
-$nochange-color:#676767
+$nochange-color:#676767;

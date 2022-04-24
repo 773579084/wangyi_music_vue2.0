@@ -1,7 +1,7 @@
 <template>
   <el-carousel :interval="4000" type="card" height="230px">
-    <el-carousel-item v-for="item in banners" :key="item.targetId">
-      <img class="banner-img" :src="item.imageUrl" alt="">
+    <el-carousel-item v-for="(item,index) in banners" :key="index">
+      <img class="banner-img" :src="item.imageUrl">
       <div class="banner-title">{{ item.typeTitle }}</div>
     </el-carousel-item>
   </el-carousel>
@@ -22,7 +22,8 @@ export default {
   methods: {
     async getData() {
      //  imageUrl 图片地址  typeTitle 图片标题 titleColor 标题颜色
-     this.banners = await (await getBanner()).data.banners
+     const res = await (await getBanner()).data.banners
+     this.banners = res
     }
   }
 }

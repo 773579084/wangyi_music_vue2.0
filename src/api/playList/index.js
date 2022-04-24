@@ -10,10 +10,26 @@ export function getDetail(id) {
     })
 }
 
-// 获取歌单所有歌曲
-export function getTrackAll(id) {
+// 获取歌单评论
+export function getCommentsApi(id, limit, offset, before) {
     return request({
-        url: '/playlist/track/all',
-        params: { id }
+        url: '/comment/playlist',
+        params: {
+            id: id,
+            limit: limit,
+            offset: offset,
+            before
+        }
+    })
+}
+
+/** 获取歌单收藏者 */
+export function getSubApi(id, limit) {
+    return request({
+        url: '/playlist/subscribers',
+        params: {
+            id: id,
+            limit
+        }
     })
 }

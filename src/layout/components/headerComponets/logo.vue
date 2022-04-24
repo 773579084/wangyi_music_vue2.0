@@ -1,5 +1,5 @@
 <template>
-  <div class="header-logo" @click="goFoundMusic">
+  <div class="header-logo">
     <img src="@/assets/images/logo.png">
     网易云音乐
   </div>
@@ -8,9 +8,6 @@
 <script>
 export default {
   methods: {
-    goFoundMusic() {
-      this.$router.push({ name: 'recommend' })
-    }
   }
 }
 </script>

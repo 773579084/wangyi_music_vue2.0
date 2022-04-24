@@ -2,9 +2,9 @@
   <div>
     <musicTitle :title="title" />
     <div class="exclusive-music">
-      <div v-for="item in exclusiveList" :key="item.id" class="box">
+      <div v-for="item in exclusiveList" :key="'privatecontent'+item.id" class="box">
         <div class="img-show">
-          <img :src="item.picUrl|imgSize('?param=365y160')">
+          <el-image class="cover" lazy :src="item.picUrl|imgSize('?param=365y160')" />
           <!-- 播放图标 -->
           <svg class="icon player-icon" aria-hidden="true">
             <use xlink:href="#icon-bofang" />
@@ -65,15 +65,6 @@ export default {
             height: 25px;
             margin: 5px;
             color: white;
-        }
-
-        .img-show{
-            height: 160px;
-            border-radius: 2%;
-
-            img {
-                border-radius: 2%;
-            }
         }
     }
 

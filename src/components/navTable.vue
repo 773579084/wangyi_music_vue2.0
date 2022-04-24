@@ -27,20 +27,21 @@
           }
     },
     created() {
-        // console.log(this.$router.options.routes)
         // 获取 foundMusic 的所有子路由
         this.tabRoutes = this.$router.options.routes[this.navTableIndex].children[0].children
         // 默认选项为子路由第一个
         this.activeName = this.tabRoutes[0].name
-    },
-    beforeUpdate() {
-      if (this.$router.history.current.path === '/home/foundMusic/recommend') {
-        this.activeName = 'recommend'
-      }
+        // 调用判定当前路由进行
+        this.selectActive()
     },
     methods: {
         routeGo(routeName) {
           this.$router.push({ name: routeName })
+        },
+        selectActive() {
+          const path = this.$route.path
+          console.log(44, this.$route)
+          this.activeName = path.split('/')[2]
         }
     }
   }

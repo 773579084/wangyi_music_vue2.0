@@ -25,7 +25,7 @@
         </span>
 
       </div>
-      <musicBox v-for="item in personalizedList" :key="item.id" :personalizeditem="item" @click.native=" goMusicList(item.id)" />
+      <musicBox v-for="item in personalizedList" :key="'recommendMusicList'+item.id" :personalizeditem="item" @click.native=" goMusicList(item.id)" />
     </div>
   </div>
 </template>
@@ -59,6 +59,7 @@ export default {
     },
     // 跳转歌单详情
     goMusicList(id) {
+      localStorage.setItem('musicDetail_01', id)
       this.$router.push({
         path: '/playlist/musicAll',
         query: { id }
@@ -80,7 +81,6 @@ export default {
     display: block;
     height: 230px;
     border-radius: 5%;
-    background-color: skyblue;
     margin-bottom: 7px;
     cursor: pointer;
     overflow: hidden;
