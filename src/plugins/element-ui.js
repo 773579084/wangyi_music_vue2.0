@@ -19,7 +19,11 @@ import {
     Input,
     Table,
     TableColumn,
-    Pagination
+    Pagination,
+    Menu,
+    Submenu,
+    MenuItem,
+    MenuItemGroup
 } from 'element-ui'
 
 Vue.use(Container)
@@ -42,3 +46,7 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItem)
+Vue.use(MenuItemGroup)

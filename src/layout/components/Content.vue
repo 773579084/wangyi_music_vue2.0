@@ -1,10 +1,18 @@
 <template>
   <div class="content">
-    <router-view />
+    <router-view :key="key" />
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  computed: {
+    key() {
+      return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
+    }
+  }
+}
+</script>
 
 <style scoped lang="scss">
 @media (min-width:1450px) {

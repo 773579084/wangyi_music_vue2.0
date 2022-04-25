@@ -9,6 +9,7 @@ export default {
             path: '',
             name: 'playlist',
             component: () => import('@/views/playList/index.vue'),
+            redirect: '/playlist/musicAll',
             children: [
                 {
                     path: 'musicAll',

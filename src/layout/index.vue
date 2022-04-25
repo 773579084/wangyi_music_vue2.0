@@ -1,13 +1,13 @@
 <template>
   <el-container>
     <!--header-->
-    <el-header style="height: 70px;">
+    <el-header style="height: 60px">
       <Header />
     </el-header>
     <!--容器嵌套使用-->
     <el-container>
       <!--aside-->
-      <el-aside style="width: 220px;">
+      <el-aside style="width: 220px">
         <Sider />
       </el-aside>
       <!--main-->
@@ -39,5 +39,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

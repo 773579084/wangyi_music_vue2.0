@@ -12,6 +12,7 @@ export default {
                 name: '发现音乐'
             },
             component: () => import('@/views/founMusic'),
+            redirect: '/foundMusic/recommend',
             //  tab栏路由
             children: [
                 {

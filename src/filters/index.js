@@ -7,8 +7,9 @@ export function imgSize(imgUrl, size) {
 export function playerNumber(math) {
     const arr = String(math).split('')
     if (arr.length > 4) {
-        const newMath = ((arr.reverse()).splice(0, 4)).join('') + '万'
-        return newMath
+        const newMath = (arr.reverse())
+        newMath.splice(0, 4)
+        return newMath.reverse().join('') + '万'
     }
     return math
 }

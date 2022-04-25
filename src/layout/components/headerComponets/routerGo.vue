@@ -1,11 +1,11 @@
 <template>
   <div class="router-go">
-    <span>
+    <span @click="$router.back()">
       <svg class="icon  right-left" aria-hidden="true">
         <use xlink:href="#icon-zuo" />
       </svg>
     </span>
-    <span>
+    <span @click="$router.forward()">
       <svg class="icon right-arrow" aria-hidden="true">
         <use xlink:href="#icon-zuo" />
       </svg>

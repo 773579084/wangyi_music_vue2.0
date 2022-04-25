@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'vue2模板项目', // 设置标题
+  title: '网易云音乐', // 设置标题
 
   /**
    * @type {boolean}

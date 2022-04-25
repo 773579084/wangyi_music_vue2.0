@@ -31,7 +31,7 @@
         this.tabRoutes = this.$router.options.routes[this.navTableIndex].children[0].children
         // 默认选项为子路由第一个
         this.activeName = this.tabRoutes[0].name
-        // 调用判定当前路由进行
+        // 调用判定当前路由 改变table栏
         this.selectActive()
     },
     methods: {
@@ -40,9 +40,11 @@
         },
         selectActive() {
           const path = this.$route.path
-          console.log(44, this.$route)
           this.activeName = path.split('/')[2]
         }
+    },
+    beforeRouteEnter(to, from, next) {
+      console.log(47, from)
     }
   }
 

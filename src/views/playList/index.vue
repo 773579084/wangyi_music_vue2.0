@@ -10,9 +10,7 @@
         <use xlink:href="#icon-Magnifier" />
       </svg>
     </div>
-    <keep-alive>
-      <router-view v-if="isGetData" class="view" :play-list-data="playListData" />
-    </keep-alive>
+    <router-view v-if="isGetData" class="view" :play-list-data="playListData" />
   </div>
 </template>
 
@@ -35,8 +33,12 @@ export default {
       }
     },
     created() {
+      this.isRouterChildren = true
       const id = localStorage.getItem('musicDetail_01') || ''
       this.getData(id)
+    },
+    beforeDestroy() {
+
     },
     methods: {
       async getData(id) {

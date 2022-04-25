@@ -1,44 +1,53 @@
 <template>
   <div class="silder">
-    <div>发现音乐</div>
-    <div>博客</div>
-    <div>视频</div>
-    <div>关注</div>
-    <div>直播</div>
-    <div>私人FM</div>
-    <span
+    <div @click="$router.push({name:'recommend'})">发现音乐</div>
+    <div @click="$router.push({name:'podcast'})">博客</div>
+    <div @click="$router.push({name:'video'})">视频</div>
+    <div @click="$router.push({name:'focus'})">关注</div>
+    <div @click="$router.push({name:'live'})">直播</div>
+    <div @click="$router.push({name:'privateFM'})">私人FM</div>
+    <div
       class="my-music"
     >
       <i>我的音乐</i>
-      <div>
+      <div @click="$router.push({name:'localDownload'})">
         <svg class="icon download" aria-hidden="true">
           <use xlink:href="#icon-xiazai" />
         </svg>
         <i>本地与下载</i>
       </div>
-      <div>
+      <div @click="$router.push({name:'recentPlay'})">
         <svg class="icon player-icon" aria-hidden="true">
           <use xlink:href="#icon-guangqi_shijianshunxu" />
         </svg>
         <i>最近播放</i>
       </div>
-    </span>
-    <span class="extend">
+    </div>
+
+    <div class="extend" @click="isShow = !isShow">
       <i>创建的歌单</i>
-      <!-- 展开 > -->
       <svg class="icon right-arrow" aria-hidden="true">
         <use xlink:href="#icon-ai23" />
       </svg>
-      <!-- 添加 十 -->
       <svg class="icon add-music" aria-hidden="true">
         <use xlink:href="#icon-tianjia_huaban" />
       </svg>
-    </span>
+    </div>
+    <div v-show="isShow">我喜欢的音乐</div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      isShow: true
+    }
+  },
+  methods: {
+
+  }
+}
 
 </script>
 
@@ -48,6 +57,7 @@ export default {}
 .silder {
   padding-top: 10px;
 }
+
 .silder > div {
   font-size: 16px;
   line-height: 2;
@@ -96,7 +106,7 @@ export default {}
 .extend {
   display: block;
   margin-top: 12px;
-  color: #9f9f9f;
+  color: #9f9f9f!important;
   cursor: pointer;
 
   .right-arrow {
@@ -114,7 +124,7 @@ export default {}
   width: 14px;
   height: 14px;
   float: right;
-  margin-top: 4px;
-  color: black;
+  margin-top: 8px;
+  color: #817a7a;
 }
 </style>

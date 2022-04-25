@@ -9,11 +9,25 @@ import Layout from '@/layout'
 // 引入多个模块
 import foundMusicRouter from './modules/foundMusic'
 import playlistRouter from './modules/playlist'
+import podcastRouter from './modules/podcast'
+import videoRouter from './modules/video'
+import focusRouter from './modules/focus'
+import liveRouter from './modules/live'
+import privateFMRouter from './modules/privateFM'
+import localDownloadRouter from './modules/localDownload'
+import recentPlayRouter from './modules/recentPlay'
 
 // 合并动态路由
 export const asyncRoutes = [
   foundMusicRouter,
-  playlistRouter
+  playlistRouter,
+  podcastRouter,
+  videoRouter,
+  focusRouter,
+  liveRouter,
+  privateFMRouter,
+  localDownloadRouter,
+  recentPlayRouter
 ]
 
 export const constantRoutes = [
