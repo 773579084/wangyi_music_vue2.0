@@ -1,5 +1,5 @@
 <template>
-  <div class="header-logo">
+  <div class="header-logo" @click="$router.push({name:'foundMusic'})">
     <img src="@/assets/images/logo.png">
     网易云音乐
   </div>
@@ -7,8 +7,6 @@
 
 <script>
 export default {
-  methods: {
-  }
 }
 </script>
 

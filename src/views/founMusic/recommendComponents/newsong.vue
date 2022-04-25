@@ -3,7 +3,7 @@
     <musicTitle title="最新音乐" />
     <div class="show-list">
       <div v-for="(item,index) in list" :key="index" class="box">
-        <div v-for="item2 in item" :key="item2.id" class="list">
+        <div v-for="item2 in item" :key="item2.id" class="list" @click="getMusicIdFn(item2.id)">
           <div class="show">
             <smallBox :imgurl="item2.picUrl" />
             <div class="music-details">
@@ -37,7 +37,8 @@ export default {
             list: {
                 newSongList2: null,
                 newSongList3: null
-            }
+            },
+            musicId: null
         }
     },
     created() {
@@ -45,11 +46,13 @@ export default {
     },
     methods: {
       async getData() {
-        const res = await (await newsong()).data.result
-        this.list.mewSongList1 = res.splice(6)
-        this.list.newSongList2 = res.splice(2)
-        this.list.newSongList3 = this.list.mewSongList1
-        // console.log(await (await newsong()).data.result)
+        const res = await (await newsong(12)).data.result
+        this.list.mewSongList1 = res.filter((value, index) => { return index < 4 })
+        this.list.newSongList2 = res.filter((value, index) => { return index > 3 && index < 8 })
+        this.list.newSongList3 = res.filter((value, index) => { return index > 7 })
+      },
+      getMusicIdFn(id) {
+        this.$store.dispatch('playerSong/saveMusic', id)
       }
     }
 }

@@ -2,10 +2,10 @@ import request from '@/utils/request'
 import { formatDate } from '@/utils/tools'
 
 // 获取歌曲详情
-export function getSongDetail(arr) {
+export function getSongDetail(ids) {
     return request({
         url: '/song/detail',
-        params: { ids: arr }
+        params: { ids: ids }
     })
 }
 

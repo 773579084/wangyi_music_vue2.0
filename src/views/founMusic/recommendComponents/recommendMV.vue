@@ -73,14 +73,14 @@ export default {
     }
 
     .font-show {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
       margin-top: 8px;
       font-size: 18px;
 
       .music-name{
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
         color: $other-font-size;
       }
 

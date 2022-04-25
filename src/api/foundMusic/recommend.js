@@ -25,9 +25,12 @@ export function privatecontent() {
 }
 
 // 最新音乐
-export function newsong() {
+export function newsong(limit) {
     return request({
-        url: '/personalized/newsong'
+        url: '/personalized/newsong',
+        params: {
+            limit
+        }
     })
 }
 
