@@ -49,22 +49,31 @@ export default {
   },
   data() {
     return {
-        musicList: []
+        musicList: [],
+        promiseControl: [],
+        isPromise: true
     }
   },
   created() {
   // 获取歌单歌曲详情
     this.getTrackAll()
   },
+  beforeCreate() {
+    Promise.reject(this.promiseControl)
+  },
   methods: {
     async getTrackAll() {
       const trackIds = this.playListData.trackIds || []
+      // 遍历请求数据
       for (let i = 0; i < trackIds.length; i++) {
-        const res = await getSongDetail(trackIds[i].id)
-        const song = new SongDetail(res.data.songs)
-        this.musicList.push(song)
+        this.promiseControl.push(Promise.all([getSongDetail(trackIds[i].id)]))
       }
-      // console.log(78, this.musicList)
+
+      this.promiseControl.forEach(item => {
+          item.then(res => {
+            this.musicList.push(new SongDetail(res[0].data.songs))
+        })
+      })
     }
   }
 }

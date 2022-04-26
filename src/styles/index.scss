@@ -70,6 +70,7 @@ img {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  cursor: pointer;
 }
 
 input,
@@ -83,4 +84,8 @@ textarea {
   max-width: 100%;
   height: auto;
   border-radius: 5px;
+}
+
+::v-deep .el-image__inner {
+  border-radius: 5%;
 }

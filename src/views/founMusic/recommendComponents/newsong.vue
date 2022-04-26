@@ -38,7 +38,8 @@ export default {
                 newSongList2: null,
                 newSongList3: null
             },
-            musicId: null
+            musicId: null,
+            newSongList: [] // 最新音乐列表=》需要放置到
         }
     },
     created() {
@@ -47,12 +48,14 @@ export default {
     methods: {
       async getData() {
         const res = await (await newsong(12)).data.result
+        this.newSongList = res
         this.list.mewSongList1 = res.filter((value, index) => { return index < 4 })
         this.list.newSongList2 = res.filter((value, index) => { return index > 3 && index < 8 })
         this.list.newSongList3 = res.filter((value, index) => { return index > 7 })
       },
       getMusicIdFn(id) {
         this.$store.dispatch('playerSong/saveMusic', id)
+        this.$store.dispatch('playerSong/saveRecentList', this.newSongList)
       }
     }
 }

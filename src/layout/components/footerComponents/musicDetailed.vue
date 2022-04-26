@@ -1,7 +1,7 @@
 <template>
   <div class="footer-left">
     <div class="music-avatar">
-      <img src="@/assets/images/calendar_bg.png" alt="">
+      <el-image :src="songImg|imgSize('?param=48y48')" />
       <div class="none-mask">
         <div class="avatar-mask">
           <svg class="icon up-arrow" aria-hidden="true">
@@ -12,19 +12,33 @@
     </div>
     <div class="music-detailed">
       <div class="music-name">
-        <i>未知作品</i>
+        <i>{{ songName }}</i>
         <svg class="icon collect" aria-hidden="true">
           <use xlink:href="#icon-aixin" />
         </svg>
       </div>
-      <div class="music-author">未知艺术家</div>
+      <div class="music-author">{{ songAuthor }}</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import { mapGetters, mapMutations } from 'vuex'
 
+export default {
+  computed: {
+    ...mapGetters(['songName', 'songAuthor', 'songImg'])
+    // songName() {
+    //   return this.$store.getters.songName
+    // }
+  },
+  created() {
+    // 调用vuex获取本地数据
+    this.SAVEMUSIC()
+  },
+  methods: {
+    ...mapMutations('playerSong', ['SAVEMUSIC'])
+  }
 }
 </script>
 

@@ -1,25 +1,27 @@
 import Vue from 'vue'
 import {
-    Container,
-    Header,
-    Aside,
-    Main,
-    Footer,
-    Tabs,
-    TabPane,
-    Carousel,
-    CarouselItem,
-    Row,
-    Col,
-    Image,
-    Button,
-    Dialog,
-    Collapse,
-    CollapseItem,
-    Input,
-    Table,
-    TableColumn,
-    Pagination
+  Container,
+  Header,
+  Aside,
+  Main,
+  Footer,
+  Tabs,
+  TabPane,
+  Carousel,
+  CarouselItem,
+  Row,
+  Col,
+  Image,
+  Button,
+  Dialog,
+  Collapse,
+  CollapseItem,
+  Input,
+  Table,
+  TableColumn,
+  Pagination,
+  Slider,
+  Popover
 } from 'element-ui'
 
 Vue.use(Container)
@@ -42,4 +44,6 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Slider)
+Vue.use(Popover)
 

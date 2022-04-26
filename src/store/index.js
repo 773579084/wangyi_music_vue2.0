@@ -9,9 +9,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
     user,
-    playerSong,
-    getters
-  }
+    playerSong
+  },
+  getters
 })
 
 export default store
