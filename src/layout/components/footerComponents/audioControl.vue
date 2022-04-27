@@ -3,11 +3,23 @@
     <!-- 播放按键 -->
     <div class="play-control">
 
-      <!-- 左播放 -->
-      <svg class="icon player-button" aria-hidden="true">
+      <!-- 单曲播放 -->
+      <svg v-show="playOrder===1" class="icon player-button" aria-hidden="true" @click="switchListPlayFn">
+        <use xlink:href="#icon-danquxunhuan" />
+      </svg>
+
+      <!-- 列表播放 -->
+      <svg v-show="playOrder===2" class="icon player-button" aria-hidden="true" @click="switchChaosPlayFn">
+        <use xlink:href="#icon-liebiaoxunhuan" />
+      </svg>
+
+      <!-- 随机播放 -->
+      <svg v-show="playOrder===3" class="icon player-button" aria-hidden="true" @click="switchSinglePlayFn">
         <use xlink:href="#icon-24gl-shuffle" />
       </svg>
-      <svg class="icon left-control" aria-hidden="true">
+
+      <!-- 左播放 -->
+      <svg class="icon left-control" aria-hidden="true" @click="upSongFn">
         <use xlink:href="#icon-zuokuozhan" />
       </svg>
 
@@ -26,7 +38,7 @@
       </span>
 
       <!-- 右播放 -->
-      <svg class="icon right-control" aria-hidden="true">
+      <svg class="icon right-control" aria-hidden="true" @click="downSongFn">
         <use xlink:href="#icon-zuokuozhan" />
       </svg>
       <div class="lyric">词</div>
@@ -50,7 +62,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -64,6 +76,7 @@ export default {
   },
   computed: {
     ...mapGetters(['isAudio', 'songUrl']),
+    ...mapState('playerSong', ['playOrder', 'recentPlayIndex', 'recentPlay']),
     // 生成总时间
      audioTimeText() {
        return this.getTimeText(this.audioTimes)
@@ -86,7 +99,24 @@ export default {
         vm.currentTime = vm.currentTime + 1
         // 当前描述超过或等于总时长，就清楚定时器
         if (vm.currentTime >= vm.audioTimes) {
+          vm.currentTime = vm.audioTimes
           clearInterval(vm.timer)
+          // 重新播放 单曲循环
+          if (vm.playOrder === 1) {
+            console.log('songUrl')
+             vm.audioTimes = 0
+             vm.currentTime = 0
+             vm.controlMusic(true)
+             vm.beginFn()
+          } else if (vm.playOrder === 2) {
+             vm.audioTimes = 0
+             vm.currentTime = 0
+             vm.controlMusic(true)
+             vm.downSongFn()
+          } else if (vm.playOrder === 3) {
+             vm.controlMusic(true)
+             vm.chaosPlayFn()
+          }
         }
       }, 1000)
       this.audioTimes = 0
@@ -114,6 +144,46 @@ export default {
     }
   },
   methods: {
+    // 点击右播放，歌曲切换到下一首
+    downSongFn() {
+      if (this.playOrder === 1 || this.playOrder === 2) {
+        let index = this.recentPlayIndex
+        if (index === this.recentPlay.length - 1) {
+          index = -1
+        }
+        const musicId = this.recentPlay[index + 1].id
+        this.saveMusic(musicId)
+        this.SAVERECENTLIST()
+      } else if (this.playOrder === 3) {
+        this.chaosPlayFn()
+      }
+    },
+    // 点击左播放，歌曲切换到上一首
+    upSongFn() {
+      if (this.playOrder === 1 || this.playOrder === 2) {
+        let index = this.recentPlayIndex
+        if (index === 0) {
+          index = this.recentPlay.length
+        }
+        const musicId = this.recentPlay[index - 1].id
+        this.saveMusic(musicId)
+        this.SAVERECENTLIST()
+      } else if (this.playOrder === 3) {
+        this.chaosPlayFn()
+      }
+    },
+    // 点击单曲循环，切换为列表播放
+    switchListPlayFn() {
+      this.switchPlay(2)
+    },
+    // 点击列表循环，切换为乱序播放
+    switchChaosPlayFn() {
+      this.switchPlay(3)
+    },
+    // 点击乱序播放，切换至单曲循环
+    switchSinglePlayFn() {
+      this.switchPlay(1)
+    },
     // 修改进度条样式进度
     changeBackFn() {
       this.currentTime = (this.buttonMove / 100) * this.audioTimes
@@ -122,6 +192,7 @@ export default {
     changeMusicFn() {
       this.$refs.audio.currentTime = this.currentTime
     },
+    // 开始播放音乐
     beginFn() {
       // 开始播放音乐
       this.beginMusic(this.$refs.audio)
@@ -135,8 +206,31 @@ export default {
         if (vm.currentTime >= vm.audioTimes) {
           vm.currentTime = vm.audioTimes
           clearInterval(vm.timer)
+          // 重新播放 单曲循环
+          if (vm.playOrder === 1) {
+            console.log('beiginFn')
+             vm.audioTimes = 0
+             vm.currentTime = 0
+             vm.controlMusic(true)
+             vm.beginFn()
+          } else if (vm.playOrder === 2) {
+             vm.audioTimes = 0
+             vm.currentTime = 0
+             vm.controlMusic(true)
+             vm.downSongFn()
+          } else if (vm.playOrder === 3) {
+             vm.chaosPlayFn()
+          }
         }
       }, 1000)
+    },
+    // 封装乱序播放顺序
+    chaosPlayFn() {
+      console.log(22)
+      const index = Math.floor(Math.random() * this.recentPlay.length)
+      const musicId = this.recentPlay[index].id
+      this.saveMusic(musicId)
+      this.SAVERECENTLIST()
     },
     // 定时
     pauseFn() {
@@ -159,7 +253,8 @@ export default {
       if (second <= 9) second = '0' + second
       return minute + ':' + second
     },
-    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio'])
+    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio', 'switchPlay', 'saveMusic']),
+    ...mapMutations('playerSong', ['SAVERECENTLIST'])
   }
 }
 </script>
@@ -204,10 +299,10 @@ export default {
     border-radius: 999px;
     margin-left: 2px;
     background-color: #f4f4f4;
+    color: $them-font-color;
 
     .pause {
       font-size: 18px;
-      color: $them-font-color;
       cursor: pointer;
 
       &:hover {

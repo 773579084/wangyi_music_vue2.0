@@ -1,23 +1,64 @@
 <template>
-  <div class="footer-left">
-    <div class="music-avatar">
-      <el-image :src="songImg|imgSize('?param=48y48')" />
-      <div class="none-mask">
-        <div class="avatar-mask">
-          <svg class="icon up-arrow" aria-hidden="true">
-            <use xlink:href="#icon-zuo" />
-          </svg>
+  <div ref="avatarBox" class="footer-left">
+    <!-- 四大按钮 -->
+    <el-row type="flex" style="width:250px" class="four-button">
+      <!-- 下滑 -->
+      <el-col :span="5">
+        <svg class="icon down-arrow" aria-hidden="true" @click="hiddenFn">
+          <use xlink:href="#icon-zuo" />
+        </svg>
+      </el-col>
+      <el-col :span="19">
+        <el-row type="flex">
+          <!-- 喜欢 -->
+          <el-col :span="6" class="icon-back">
+            <svg class="icon collect" aria-hidden="true">
+              <use xlink:href="#icon-aixin" />
+            </svg>
+          </el-col>
+          <!-- 收藏 -->
+          <el-col :span="6" class="icon-back">
+            <svg class="icon collect" aria-hidden="true">
+              <use xlink:href="#icon-xinjianwenjian" />
+            </svg>
+          </el-col>
+          <!-- 下载 -->
+          <el-col :span="6" class="icon-back">
+            <svg class="icon collect" aria-hidden="true">
+              <use xlink:href="#icon-xiazai" />
+            </svg>
+          </el-col>
+          <!-- 分享 -->
+          <el-col :span="6" class="icon-back">
+            <svg class="icon collect" aria-hidden="true">
+              <use xlink:href="#icon-fenxiang" />
+            </svg>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+
+    <!-- 歌曲封面 信息 展示 -->
+    <div class="footer-left2">
+      <div class="music-avatar" @click="showMusicDetailFn">
+        <el-image :src="songImg|imgSize('?param=48y48')" />
+        <div class="none-mask">
+          <div class="avatar-mask">
+            <svg class="icon up-arrow" aria-hidden="true">
+              <use xlink:href="#icon-zuo" />
+            </svg>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="music-detailed">
-      <div class="music-name">
-        <i>{{ songName }}</i>
-        <svg class="icon collect" aria-hidden="true">
-          <use xlink:href="#icon-aixin" />
-        </svg>
+      <div class="music-detailed">
+        <div class="music-name">
+          <i class="song-name">{{ songName }}</i>
+          <svg class="icon collect" aria-hidden="true">
+            <use xlink:href="#icon-aixin" />
+          </svg>
+        </div>
+        <div class="music-author">{{ songAuthor }}</div>
       </div>
-      <div class="music-author">{{ songAuthor }}</div>
     </div>
   </div>
 </template>
@@ -28,15 +69,19 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapGetters(['songName', 'songAuthor', 'songImg'])
-    // songName() {
-    //   return this.$store.getters.songName
-    // }
   },
   created() {
     // 调用vuex获取本地数据
     this.SAVEMUSIC()
   },
   methods: {
+    // 控制左侧播放模式切换
+    showMusicDetailFn() {
+      this.$refs.avatarBox.style.top = 60 + 'px'
+    },
+    hiddenFn() {
+      this.$refs.avatarBox.style.top = 0 + 'px'
+    },
     ...mapMutations('playerSong', ['SAVEMUSIC'])
   }
 }
@@ -45,9 +90,39 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/index.scss';
 
-.footer-left {
-  display: flex;
+.four-button {
+  position: absolute;
+  top: -66px;
+  left: 0px;
+  height: 60px;
+  align-items: center;
+  background-color: #fff;
+
+  .down-arrow {
+    transform: rotate(-90deg);
+  }
+
+  .icon-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 999px;
+    border: 1px solid #ececec;
+    margin-right: 10px;
+  }
 }
+
+.footer-left,.footer-left2 {
+  position: relative;
+  top: 0;
+  display: flex;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: .4s linear;
+}
+
 .music-avatar {
   position: relative;
   width: 48px;
@@ -95,10 +170,6 @@ export default {
   .music-name > i {
     cursor: pointer;
     color: $them-font-color;
-
-    &:hover {
-      font-weight: bold;
-    }
   }
 
   .collect {

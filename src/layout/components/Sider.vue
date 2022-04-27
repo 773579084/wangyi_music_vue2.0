@@ -6,25 +6,24 @@
     <div @click="$router.push({name:'focus'})">关注</div>
     <div @click="$router.push({name:'live'})">直播</div>
     <div @click="$router.push({name:'privateFM'})">私人FM</div>
-    <div
-      class="my-music"
-    >
-      <i>我的音乐</i>
-      <div @click="$router.push({name:'localDownload'})">
-        <svg class="icon download" aria-hidden="true">
-          <use xlink:href="#icon-xiazai" />
-        </svg>
-        <i>本地与下载</i>
-      </div>
-      <div @click="$router.push({name:'recentPlay'})">
-        <svg class="icon player-icon" aria-hidden="true">
-          <use xlink:href="#icon-guangqi_shijianshunxu" />
-        </svg>
-        <i>最近播放</i>
-      </div>
-    </div>
 
-    <div class="extend" @click="isShow = !isShow">
+    <i class="my-music">我的音乐</i>
+    <!-- <div class="my-music"> -->
+    <div class="download-local" @click="$router.push({name:'localDownload'})">
+      <svg class="icon download" aria-hidden="true">
+        <use xlink:href="#icon-xiazai" />
+      </svg>
+      <i>本地与下载</i>
+    </div>
+    <div @click="$router.push({name:'recentPlay'})">
+      <svg class="icon player-icon" aria-hidden="true">
+        <use xlink:href="#icon-guangqi_shijianshunxu" />
+      </svg>
+      <i>最近播放</i>
+    </div>
+    <!-- </div>   -->
+
+    <span class="extend" @click="isShow = !isShow">
       <i>创建的歌单</i>
       <svg class="icon right-arrow" aria-hidden="true">
         <use xlink:href="#icon-ai23" />
@@ -32,7 +31,7 @@
       <svg class="icon add-music" aria-hidden="true">
         <use xlink:href="#icon-tianjia_huaban" />
       </svg>
-    </div>
+    </span>
     <div v-show="isShow">我喜欢的音乐</div>
   </div>
 </template>
@@ -83,12 +82,12 @@ export default {
     color: $them-font-color;
     line-height: 2.5;
     cursor: pointer;
-
-    &:hover {
-      font-weight: bold;
-      background-color: #f5f5f6;
-    }
   }
+}
+
+.my-music:hover > .download-local{
+  font-weight: bold;
+  background-color: #f5f5f6;
 }
 
 .download, .player-icon {
@@ -114,10 +113,6 @@ export default {
     height: 10px;
     margin-bottom: 3px;
     margin-left: 2px;
-  }
-
-  &:hover .right-arrow {
-    color: #817a7a;
   }
 }
 .add-music {

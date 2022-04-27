@@ -19,6 +19,8 @@
     <el-footer>
       <Footer />
     </el-footer>
+    <!-- 音乐 纯享 模式  -->
+    <musicDetailedVue />
   </el-container>
 </template>
 
@@ -27,16 +29,19 @@ import Header from './components/Header.vue'
 import Sider from './components/Sider.vue'
 import Content from './components/Content.vue'
 import Footer from './components/Footer.vue'
+import musicDetailedVue from './components/footerComponents/musicDetailed.vue'
 
 export default {
   components: {
     Header,
     Sider,
     Content,
-    Footer
+    Footer,
+    musicDetailedVue
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
 </style>

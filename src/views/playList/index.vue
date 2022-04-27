@@ -11,6 +11,8 @@
       </svg>
     </div>
     <router-view v-if="isGetData" class="view" :play-list-data="playListData" />
+    <!-- 回到顶部 -->
+    <goTopVue />
   </div>
 </template>
 
@@ -18,11 +20,13 @@
 import headerVue from './components/header'
 import navTableVue from '@/components/navTable.vue'
 import { getDetail } from '@/api/playList'
+import goTopVue from '@/components/goTop.vue'
 
 export default {
     components: {
         headerVue,
-        navTableVue
+        navTableVue,
+        goTopVue
     },
     data() {
       return {

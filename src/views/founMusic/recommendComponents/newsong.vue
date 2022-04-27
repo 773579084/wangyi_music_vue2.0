@@ -3,7 +3,7 @@
     <musicTitle title="最新音乐" />
     <div class="show-list">
       <div v-for="(item,index) in list" :key="index" class="box">
-        <div v-for="item2 in item" :key="item2.id" class="list" @click="getMusicIdFn(item2.id)">
+        <div v-for="item2 in item" :key="item2.id" class="list" @dblclick="getMusicIdFn(item2.id)">
           <div class="show">
             <smallBox :imgurl="item2.picUrl" />
             <div class="music-details">
@@ -54,8 +54,11 @@ export default {
         this.list.newSongList3 = res.filter((value, index) => { return index > 7 })
       },
       getMusicIdFn(id) {
+        // 存储音乐id
         this.$store.dispatch('playerSong/saveMusic', id)
-        this.$store.dispatch('playerSong/saveRecentList', this.newSongList)
+        // 加工数据
+        const newSongList = this.mixCurrentPlay(this.newSongList)
+        this.$store.dispatch('playerSong/saveRecentList', newSongList)
       }
     }
 }

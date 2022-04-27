@@ -60,7 +60,8 @@ export default {
       top: 0;
       width: 100%;
       height: 38px;
-      border-radius: 5%;
+      border-top-left-radius:5%;
+      border-top-right-radius:5%;
       background-color: rgba(0, 0, 0, 0.315);
     }
 

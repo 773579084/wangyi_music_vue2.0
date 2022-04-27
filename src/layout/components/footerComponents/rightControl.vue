@@ -26,19 +26,27 @@
     </svg>
 
     <!-- 播放列表 -->
-    <svg class="icon player-list" aria-hidden="true">
+    <svg class="icon player-list" aria-hidden="true" @click="isShowFn">
       <use xlink:href="#icon-24gf-playlist" />
     </svg>
+
+    <!-- 当前播放 抽屉 -->
+    <currentPlayerVue :table="table" @changeTableFn="changeTableFn" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import currentPlayerVue from './compoents/currentPlayer.vue'
 
 export default {
+  components: {
+    currentPlayerVue
+  },
   data() {
     return {
-      vol: 30
+      vol: 30,
+      table: false
     }
   },
  computed: {
@@ -48,8 +56,17 @@ export default {
     vol() {
       this.audio.volume = this.vol / 100
     }
+  },
+ methods: {
+    isShowFn() {
+      this.table = !this.table
+    },
+    changeTableFn() {
+      this.table = !this.table
+    }
   }
 }
+
 </script>
 
 <style scoped lang="scss">
@@ -57,8 +74,8 @@ export default {
 
 .right {
   display: flex;
-  justify-content: space-around;
-  width: 225px;
+  justify-content: space-evenly;
+  width: 100%;
 
   .player-button {
     width: 22px;
@@ -81,6 +98,7 @@ export default {
   border: 1px solid $them-font-color;
   font-size: 11px;
   color: $them-font-color;
+  cursor: pointer;
 }
 
 ::v-deep .el-slider__bar{

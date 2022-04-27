@@ -6,12 +6,14 @@ import { getMusicUrl } from '@/api/playerSong'
 export default {
   namespaced: true,
   state: {
-    id: null, // 音乐ID
+    id: null, // 当前音乐ID
     musicDetail: {}, // 存储音乐详情地址
     musicPlyerUrl: null, // 存储音乐播放地址
     isAudio: false, // 控制音乐播放控件图标
     audio: null, // 播放控件
-    recentPlay: [] // 最近播放歌单
+    recentPlay: [], // 当前播放歌单
+    recentPlayIndex: null, // 当前播放正在播放的歌曲的索引值index
+    playOrder: 1 // 控制音乐播放顺序 1:单曲循环 2：列表播放 3：乱序播放
   },
   mutations: {
     // 获取音乐 ID 和 最近播放歌单
@@ -19,6 +21,7 @@ export default {
       state.id = localStorage.getItem('playerSong_01')
       state.musicPlyerUrl = localStorage.getItem('musicURL_01')
       state.musicDetail = JSON.parse(localStorage.getItem('musicDetail_01'))
+      state.recentPlayIndex = Number(localStorage.getItem('recentPlayIndex_01'))
     },
     // 控制音乐播放
     CONTROLMUSIC(state, value) {
@@ -31,15 +34,25 @@ export default {
     // 获取最近播放歌单
     SAVERECENTLIST(state) {
       state.recentPlay = JSON.parse(localStorage.getItem('recentList_01'))
+
+      // 求当前播放音乐在当前音乐列表里面的索引值
+      const id = localStorage.getItem('playerSong_01')
+      const currentMusicIndex = requestCurrentIndexFn(id, state.recentPlay)
+      localStorage.setItem('recentPlayIndex_01', currentMusicIndex)
+      state.recentPlayIndex = Number(localStorage.getItem('recentPlayIndex_01'))
+    },
+    // 切换播放模式
+    SWITCHPLAY(state, num) {
+      state.playOrder = num
     }
   },
   actions: {
     // 保存音乐 ID
     async saveMusic(context, id) {
+      // 存储歌曲id
       localStorage.setItem('playerSong_01', id)
       // 存储音乐详情数据
       const musicDetailRes = await (await getSongDetail(id)).data.songs
-
       const songs = new SongDetail(musicDetailRes)
       localStorage.setItem('musicDetail_01', JSON.stringify(songs))
 
@@ -69,6 +82,19 @@ export default {
       // 存储最近播放歌单
       localStorage.setItem('recentList_01', JSON.stringify(arr))
       context.commit('SAVERECENTLIST')
+    },
+    // 切换播放模式
+    switchPlay(context, num) {
+      context.commit('SWITCHPLAY', num)
     }
   }
+}
+
+// 封装求当前播放音乐在当前音乐列表里面的索引值的函数
+function requestCurrentIndexFn(id, list) {
+  const currentMusicIndex = list.findIndex((item) => {
+    return item.id === Number(id)
+  })
+  // console.log(97, currentMusicIndex)
+  return currentMusicIndex
 }

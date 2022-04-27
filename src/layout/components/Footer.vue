@@ -1,12 +1,24 @@
 <template>
-  <div class="footer">
+  <el-row class="footer">
     <!-- 左模块 -->
-    <musicDetailed />
+    <el-col :span="6">
+      <el-row type="flex" justify="start">
+        <musicDetailed />
+      </el-row>
+    </el-col>
     <!-- 中间模块 -->
-    <audioControl />
+    <el-col :span="12">
+      <el-row type="flex" justify="center">
+        <audioControl />
+      </el-row>
+    </el-col>
     <!-- 右模块 -->
-    <rightControl />
-  </div>
+    <el-col :span="6">
+      <el-row type="flex" justify="center">
+        <rightControl />
+      </el-row>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -27,5 +39,6 @@ export default {
   height: 100%;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
 }
 </style>
