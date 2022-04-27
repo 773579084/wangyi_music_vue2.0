@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     async getComments() {
-      const detailId = localStorage.getItem('musicDetail_01')
+      const detailId = localStorage.getItem('musicDetailId_01')
       // 获取总按钮数
       this.total = this.playListData.commentCount
       // 请求数据 offset ->页数

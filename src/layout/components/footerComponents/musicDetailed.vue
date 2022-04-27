@@ -51,9 +51,11 @@
         </div>
       </div>
       <div class="music-detailed">
-        <div class="music-name">
-          <i class="song-name">{{ songName }}</i>
-          <svg class="icon collect" aria-hidden="true">
+        <div class="title-music">
+          <div class="music-name">
+            <i class="song-name">{{ songName }}</i>
+          </div>
+          <svg class="icon collect love-icon" aria-hidden="true">
             <use xlink:href="#icon-aixin" />
           </svg>
         </div>
@@ -114,13 +116,17 @@ export default {
   }
 }
 
-.footer-left,.footer-left2 {
+.footer-left {
   position: relative;
   top: 0;
   display: flex;
   white-space: nowrap;
   text-overflow: ellipsis;
   transition: .4s linear;
+}
+
+.footer-left2 {
+  display: flex;
 }
 
 .music-avatar {
@@ -163,9 +169,23 @@ export default {
 
 .music-detailed {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   margin-left: 10px;
+  flex-direction: column;
+
+  .title-music {
+    display: flex;
+
+    .love-icon {
+      margin-top: 2px;
+    }
+  }
+
+  .music-name {
+    max-width: 135px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
   .music-name > i {
     cursor: pointer;

@@ -62,9 +62,7 @@ export default {
   created() {
    // 获取歌单歌曲详情
     this.getTrackAll()
-    setTimeout(() => {
-      this.loading = false
-    }, 1000)
+    this.loading = false
   },
   beforeCreate() {
     Promise.reject(this.promiseControl)

@@ -7,7 +7,7 @@ export default {
   namespaced: true,
   state: {
     id: null, // 当前音乐ID
-    musicDetail: {}, // 存储音乐详情地址
+    musicDetail: {}, // 存储歌单id地址
     musicPlyerUrl: null, // 存储音乐播放地址
     isAudio: false, // 控制音乐播放控件图标
     audio: null, // 播放控件

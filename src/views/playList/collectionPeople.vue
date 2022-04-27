@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async getData() {
-      this.collectors = await (await (await getSubApi(localStorage.getItem('musicDetail_01', 30))).data.subscribers)
+      this.collectors = await (await (await getSubApi(localStorage.getItem('musicDetailId_01', 30))).data.subscribers)
       // console.log(29, await getSubApi(localStorage.getItem('musicDetail_01', 100)))
     }
   }

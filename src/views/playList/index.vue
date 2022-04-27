@@ -38,7 +38,7 @@ export default {
     },
     created() {
       this.isRouterChildren = true
-      const id = localStorage.getItem('musicDetail_01') || ''
+      const id = localStorage.getItem('musicDetailId_01') || ''
       this.getData(id)
     },
     beforeDestroy() {

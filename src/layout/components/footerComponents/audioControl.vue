@@ -208,7 +208,6 @@ export default {
           clearInterval(vm.timer)
           // 重新播放 单曲循环
           if (vm.playOrder === 1) {
-            console.log('beiginFn')
              vm.audioTimes = 0
              vm.currentTime = 0
              vm.controlMusic(true)
