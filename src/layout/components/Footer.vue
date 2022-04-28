@@ -28,7 +28,10 @@ import rightControl from './footerComponents/rightControl.vue'
 
 export default {
   components: {
-    musicDetailed, audioControl, rightControl
+    musicDetailed,
+    audioControl,
+    rightControl
+
   }
 }
 </script>

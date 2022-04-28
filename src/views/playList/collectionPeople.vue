@@ -5,7 +5,7 @@
         <!-- 收藏者 box -->
         <div v-for="item in collectors" :key="item.userId" class="collect-box">
           <el-col :span="2" class="avatar">
-            <el-image lazy :src="item.avatarUrl" />
+            <el-image lazy :src="item.avatarUrl|imgSize('?param=100y100')" />
           </el-col>
           <el-col :span="22" class="nick-name">
             <i>{{ item.nickname }}</i>

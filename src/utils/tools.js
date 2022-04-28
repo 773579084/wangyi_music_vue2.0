@@ -26,4 +26,5 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
 
-//
+// 格式化歌词
+

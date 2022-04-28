@@ -9,11 +9,13 @@ export default {
     id: null, // 当前音乐ID
     musicDetail: {}, // 存储歌单id地址
     musicPlyerUrl: null, // 存储音乐播放地址
-    isAudio: false, // 控制音乐播放控件图标
+    isAudio: false, // 控制音乐开始 - 暂停
     audio: null, // 播放控件
     recentPlay: [], // 当前播放歌单
     recentPlayIndex: null, // 当前播放正在播放的歌曲的索引值index
-    playOrder: 1 // 控制音乐播放顺序 1:单曲循环 2：列表播放 3：乱序播放
+    playOrder: 1, // 控制音乐播放顺序 1:单曲循环 2：列表播放 3：乱序播放
+    playHeaderShow: false, // 控制头部展示栏/纯享界面控制 - 显示隐藏
+    wordIndex: 0 // 歌词进度时间
   },
   mutations: {
     // 获取音乐 ID 和 最近播放歌单
@@ -44,6 +46,14 @@ export default {
     // 切换播放模式
     SWITCHPLAY(state, num) {
       state.playOrder = num
+    },
+    // 隐藏或显示头部
+    ISSHOWHEADER(state, value) {
+      state.playHeaderShow = value
+    },
+    // 存储歌词索引
+    SAVEWORDINDEX(state, index) {
+      state.wordIndex = index
     }
   },
   actions: {
@@ -86,6 +96,14 @@ export default {
     // 切换播放模式
     switchPlay(context, num) {
       context.commit('SWITCHPLAY', num)
+    },
+    // 显示隐藏头部header
+    isShowHeader(context, value) {
+      context.commit('ISSHOWHEADER', value)
+    },
+    // 存储 音乐播放进度的index 值
+    saveWordIndex(context, index) {
+      context.commit('SAVEWORDINDEX', index)
     }
   }
 }

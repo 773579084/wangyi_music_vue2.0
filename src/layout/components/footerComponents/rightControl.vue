@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      vol: 30,
+      vol: 80,
       table: false
     }
   },
@@ -108,4 +108,5 @@ export default {
 ::v-deep .el-slider__button {
   border: 2px solid $header-theme-color;
 }
+
 </style>

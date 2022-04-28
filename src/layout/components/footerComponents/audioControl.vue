@@ -81,7 +81,7 @@ export default {
      audioTimeText() {
        return this.getTimeText(this.audioTimes)
      },
-    // 实时生成当前时间
+    // 实时生成当前时间1
     currentTimeText() {
       return this.getTimeText(this.currentTime)
     },
@@ -93,35 +93,11 @@ export default {
   watch: {
     songUrl: function() {
       clearInterval(this.timer)
-      const vm = this
-      // 一旦音乐地址更换了，就重置数据
-      this.timer = window.setInterval(function() {
-        vm.currentTime = vm.currentTime + 1
-        // 当前描述超过或等于总时长，就清楚定时器
-        if (vm.currentTime >= vm.audioTimes) {
-          vm.currentTime = vm.audioTimes
-          clearInterval(vm.timer)
-          // 重新播放 单曲循环
-          if (vm.playOrder === 1) {
-            console.log('songUrl')
-             vm.audioTimes = 0
-             vm.currentTime = 0
-             vm.controlMusic(true)
-             vm.beginFn()
-          } else if (vm.playOrder === 2) {
-             vm.audioTimes = 0
-             vm.currentTime = 0
-             vm.controlMusic(true)
-             vm.downSongFn()
-          } else if (vm.playOrder === 3) {
-             vm.controlMusic(true)
-             vm.chaosPlayFn()
-          }
-        }
-      }, 1000)
+      // 清除原来数据
       this.audioTimes = 0
       this.currentTime = 0
-      this.controlMusic(true)
+      // 重播音乐
+      this.beginFn()
     },
     // 监听barwidth 一变动 按钮变动
     barWidth: function(newValue) {
@@ -202,7 +178,10 @@ export default {
       const vm = this
       this.timer = window.setInterval(function() {
         vm.currentTime = vm.currentTime + 1
-        // 当前描述超过或等于总时长，就清楚定时器
+        const wordIndex = parseInt(vm.currentTime)
+        vm.saveWordIndex(wordIndex)
+
+        // 当前描述超过或等于总时长，就清除定时器
         if (vm.currentTime >= vm.audioTimes) {
           vm.currentTime = vm.audioTimes
           clearInterval(vm.timer)
@@ -252,7 +231,7 @@ export default {
       if (second <= 9) second = '0' + second
       return minute + ':' + second
     },
-    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio', 'switchPlay', 'saveMusic']),
+    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio', 'switchPlay', 'saveMusic', 'saveWordIndex']),
     ...mapMutations('playerSong', ['SAVERECENTLIST'])
   }
 }

@@ -40,6 +40,7 @@
 
 <script>
 import { getCommentsApi } from '@/api/playList'
+import { getMusicComment } from '@/api/playerSong'
 import commentVue from '@/components/comment'
 
 export default {
@@ -50,12 +51,15 @@ export default {
     playListData: {
       type: Object,
       required: true
+    },
+    isMusic: {
+      type: Boolean
     }
   },
   data() {
     return {
       musicDetailComment: null, // 用户评论
-      detailComments: [],
+      detailComments: [], // 评论数据
       isCom: false,
       isTree: false, // 控制评论嵌套
       limit: 20, // 控制每一页展示的数量
@@ -68,11 +72,19 @@ export default {
   },
   methods: {
     async getComments() {
-      const detailId = localStorage.getItem('musicDetailId_01')
-      // 获取总按钮数
+      const musicId = localStorage.getItem('playerSong_01')
+      const ListId = localStorage.getItem('musicDetailId_01')
+      let detailId = null
+      this.isMusic ? detailId = musicId : detailId = ListId
+
+      // 获取评论总数
       this.total = this.playListData.commentCount
       // 请求数据 offset ->页数
-      this.detailComments = await await (await getCommentsApi(detailId, this.limit, this.offset)).data.comments
+      if (this.isMusic) {
+        this.detailComments = await await (await getMusicComment(detailId, this.limit, this.offset)).data.comments
+      } else {
+        this.detailComments = await await (await getCommentsApi(detailId, this.limit, this.offset)).data.comments
+      }
       this.isCom = true
       // console.log(58, await (await getCommentsApi(detailId, 20, 2)).data.comments)
     },

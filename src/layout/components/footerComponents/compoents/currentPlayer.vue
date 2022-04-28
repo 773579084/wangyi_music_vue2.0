@@ -130,4 +130,17 @@ export default {
   display: none;
 }
 
+::v-deep .el-drawer__body {
+        // 修改滚动条样式
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 1px;
+    }
+
+    // 滑块部分
+    &::-webkit-scrollbar-thumb {
+        background-color: #e1e1e1;
+    }
+}
+
 </style>

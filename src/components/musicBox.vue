@@ -3,7 +3,7 @@
     <span class="music-box">
       <!-- 右上角音乐图标 -->
       <div class="mask" />
-      <img :src="personalizeditem.picUrl" class="box-img">
+      <img :src="personalizeditem.picUrl|imgSize('?param=222y230')" class="box-img">
       <i>
         <img class="music-log" src="@/assets/images/logo.png" alt="">
       </i>

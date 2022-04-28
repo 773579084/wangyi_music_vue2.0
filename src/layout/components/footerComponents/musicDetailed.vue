@@ -66,25 +66,39 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['songName', 'songAuthor', 'songImg'])
+    ...mapGetters(['songName', 'songAuthor', 'songImg']),
+    ...mapState('playerSong', ['playHeaderShow'])
+  },
+  watch: {
+    playHeaderShow: function() {
+      if (this.playHeaderShow) {
+        this.$refs.avatarBox.style.top = 60 + 'px'
+      } else {
+        this.$refs.avatarBox.style.top = 0 + 'px'
+      }
+    }
   },
   created() {
     // 调用vuex获取本地数据
     this.SAVEMUSIC()
   },
   methods: {
-    // 控制左侧播放模式切换
+    // 点击显示播放模式
     showMusicDetailFn() {
+      this.isShowHeader(true)
       this.$refs.avatarBox.style.top = 60 + 'px'
     },
+    // 点击隐藏播放模式
     hiddenFn() {
+      this.isShowHeader(false)
       this.$refs.avatarBox.style.top = 0 + 'px'
     },
-    ...mapMutations('playerSong', ['SAVEMUSIC'])
+    ...mapMutations('playerSong', ['SAVEMUSIC']),
+    ...mapActions('playerSong', ['isShowHeader'])
   }
 }
 </script>
@@ -122,7 +136,7 @@ export default {
   display: flex;
   white-space: nowrap;
   text-overflow: ellipsis;
-  transition: .4s linear;
+  transition: .2s linear;
 }
 
 .footer-left2 {

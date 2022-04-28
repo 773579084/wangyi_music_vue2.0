@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="foundMusic">
     <!-- 顶部导航栏 -->
     <navTable :nav-table-index="navTableIndex" />
   </div>
