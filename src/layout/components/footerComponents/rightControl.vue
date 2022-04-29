@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .right {
   display: flex;
@@ -80,12 +80,12 @@ export default {
   .player-button {
     width: 22px;
     height: 22px;
-    color: $them-font-color;
+     @include font_color("font_color1");
   }
 
   .player-list {
     margin-top: 2px;
-    color: $them-font-color;
+     @include font_color("font_color1");
   }
 }
 .tone-control {
@@ -95,18 +95,24 @@ export default {
   width: 30px;
   height: 20px;
   margin-top: 2px;
-  border: 1px solid $them-font-color;
+  border: 1px solid #ec4141;
+  @include border_color("border_color1");
   font-size: 11px;
-  color: $them-font-color;
+  @include font_color("font_color1");
   cursor: pointer;
 }
 
-::v-deep .el-slider__bar{
-  background-color: $header-theme-color;
-}
-
 ::v-deep .el-slider__button {
-  border: 2px solid $header-theme-color;
+  border: 2px solid #ec4141;
 }
 
 </style>
+
+<style lang="scss">
+@import '@/styles/_handle.scss';
+
+.el-slider__bar{
+  @include background_color("background_color1");
+}
+</style>
+

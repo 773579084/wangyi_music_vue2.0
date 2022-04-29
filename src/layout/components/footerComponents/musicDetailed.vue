@@ -105,6 +105,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .four-button {
   position: absolute;
@@ -112,7 +113,7 @@ export default {
   left: 0px;
   height: 60px;
   align-items: center;
-  background-color: #fff;
+  @include background_color("background_color2");
 
   .down-arrow {
     transform: rotate(-90deg);
@@ -168,7 +169,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.3);
 
     .up-arrow {
-      color: rgba(255, 255, 255, 0.555);
+      @include font_color("font_color1");
       font-size: 20px;
       margin-top: 5px;
       transform: rotate(90deg);
@@ -203,14 +204,14 @@ export default {
 
   .music-name > i {
     cursor: pointer;
-    color: $them-font-color;
+    @include font_color("font_color1");
   }
 
   .collect {
     font-size: 18px;
     margin-left: 6px;
     margin-bottom: 3px;
-    color: $them-font-color;
+    @include font_color("font_color1");
     vertical-align: middle;
     cursor: pointer;
 
@@ -220,7 +221,7 @@ export default {
   }
 
   .music-author {
-    color: #5f5f5f;
+    @include font_color("font_color1");
     font-size: 12px;
   }
 }

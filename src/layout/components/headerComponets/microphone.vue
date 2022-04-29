@@ -20,7 +20,7 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #eaeaea22;
   cursor: pointer;
 
   .microphone-icon {

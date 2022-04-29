@@ -3,7 +3,7 @@
     <el-row v-for="(item,index) in detailComments" :key="index" class="comment-list">
       <el-col :span="1">
         <div class="left">
-          <el-image lazy class="avatar" :src="item.user?item.user.avatarUrl:''" />
+          <el-image lazy class="avatar" :src="item.user.avatarUrl|imgSize('?param=40y40')" />
         </div>
       </el-col>
       <el-col style="margin-left: 12px;font-size:12px;" :span="22">

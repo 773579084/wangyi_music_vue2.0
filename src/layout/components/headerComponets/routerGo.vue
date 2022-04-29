@@ -47,7 +47,7 @@ export default {
     height: 24px;
     margin-right: 6px;
     border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #eaeaea22;
     cursor: pointer;
   }
 }

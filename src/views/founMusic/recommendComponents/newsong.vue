@@ -68,7 +68,7 @@ export default {
 .show-list {
     display: flex;
     justify-content: space-between;
-     cursor: pointer;
+    cursor: pointer;
 
     .box {
         display: flex;
@@ -94,7 +94,7 @@ export default {
             width: 80%;
 
             &:hover {
-                background-color: #eaeaea;
+                background-color: #eaeaea37;
             }
 
         .font {

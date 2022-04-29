@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .exclusive-music {
     display: flex;
@@ -81,7 +81,7 @@ export default {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         overflow: hidden;
-        color: $other-font-size;
+        @include font_color("font_color1");
       }
 
       .author {

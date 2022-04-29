@@ -62,7 +62,6 @@ export default {
   created() {
    // 获取歌单歌曲详情
     this.getTrackAll()
-    this.loading = false
   },
   beforeCreate() {
     Promise.reject(this.promiseControl)
@@ -77,13 +76,15 @@ export default {
       const trackIds = this.playListData.trackIds || []
       // 遍历请求数据
       for (let i = 0; i < trackIds.length; i++) {
-        this.promiseControl.push(Promise.all([getSongDetail(trackIds[i].id)]))
+        this.promiseControl.push(getSongDetail(trackIds[i].id))
       }
 
-      this.promiseControl.forEach(item => {
-          item.then(res => {
-            this.musicList.push(new SongDetail(res[0].data.songs))
-        })
+      const res = await Promise.all(this.promiseControl)
+      // window.debug()
+      this.loading = false
+
+      res.forEach(item => {
+        this.musicList.push(new SongDetail(item.data.songs))
       })
     },
     ...mapActions('playerSong', ['saveMusic', 'saveRecentList'])
@@ -95,4 +96,8 @@ export default {
 .collect-icon {
   margin-right: 10px;
 }
+</style>
+
+<style lang="scss">
+
 </style>

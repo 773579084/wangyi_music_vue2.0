@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 // 邮件
 .user-email {
@@ -39,7 +39,7 @@ export default {
       font-size: 12px;
       right: 4px;
       top: -2px;
-      color: $header-theme-color;
+      @include font_color("font_color2");
     }
   }
 }

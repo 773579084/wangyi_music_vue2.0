@@ -15,26 +15,29 @@
     <div class="right">
       <!-- 用户登录 -->
       <userLogin />
+
       <!-- 换肤 -->
-      <!-- <skin-outlined class="change-skin" /> -->
-      <svg class="icon set-icon clothes-icon" aria-hidden="true">
-        <use xlink:href="#icon-yifu" />
-      </svg>
+      <changeColor />
+
       <!-- 设置 -->
       <svg class="icon set-icon" aria-hidden="true">
         <use xlink:href="#icon-shezhi" />
       </svg>
+
       <!-- 用户信件 -->
       <userEmail />
+
       <!-- github -->
       <svg class="icon set-icon github-icon" aria-hidden="true" @click="goGitHub">
         <use xlink:href="#icon-github-fill" />
       </svg>
+
       <!-- gitee -->
       <svg class="icon set-icon gitee-icon" aria-hidden="true" @click="goGitee">
         <use xlink:href="#icon-gitee2" />
       </svg>
       <div class="vertical-bar">|</div>
+
       <!-- 三大键 -->
       <threeKey />
     </div>
@@ -49,10 +52,18 @@ import microphone from './headerComponets/microphone.vue'
 import userLogin from './headerComponets/userLogin.vue'
 import userEmail from './headerComponets/userEmail.vue'
 import threeKey from './headerComponets/threeKey.vue'
+import changeColor from './headerComponets/changeColor'
 
 export default {
   components: {
-    logo, routerGo, musicSearch, microphone, userLogin, userEmail, threeKey
+    logo,
+    routerGo,
+    musicSearch,
+    microphone,
+    userLogin,
+    userEmail,
+    threeKey,
+    changeColor
   },
   methods: {
     goGitHub() {
@@ -70,6 +81,7 @@ export default {
   display: flex;
   justify-content: space-between;
   height: 100%;
+
 }
 
 .left {
@@ -105,7 +117,7 @@ export default {
   }
 }
 
-.clothes-icon,.github-icon{
+.github-icon{
   margin-left: 20px;
 }
 

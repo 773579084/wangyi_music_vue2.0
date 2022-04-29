@@ -53,7 +53,8 @@ export default {
       required: true
     },
     isMusic: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   data() {

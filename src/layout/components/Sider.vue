@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .silder {
   padding-top: 10px;
@@ -61,7 +61,7 @@ export default {
   font-size: 16px;
   line-height: 2;
   margin: 5px 0;
-  color: $them-font-color;
+  @include font_color("font_color1");
   cursor: pointer;
 
   &:hover {
@@ -79,7 +79,7 @@ export default {
 
   div {
     font-size: 14px;
-    color: $them-font-color;
+    @include font_color("font_color1");
     line-height: 2.5;
     cursor: pointer;
   }
@@ -94,7 +94,7 @@ export default {
   width: 14px;
   height: 14px;
   margin-right: 4px;
-  color: $them-font-color;
+  @include font_color("font_color1");
 }
 
 .player-icon{

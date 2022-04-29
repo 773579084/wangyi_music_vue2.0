@@ -105,7 +105,7 @@ export default {
     }
 
   },
-  created() {
+  async created() {
     this.currentTime = 1
   },
   mounted() {
@@ -231,7 +231,7 @@ export default {
       if (second <= 9) second = '0' + second
       return minute + ':' + second
     },
-    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio', 'switchPlay', 'saveMusic', 'saveWordIndex']),
+    ...mapActions('playerSong', ['controlMusic', 'beginMusic', 'pauseMusic', 'saveAudio', 'switchPlay', 'saveMusic', 'saveWordIndex', 'saveMusicUrl']),
     ...mapMutations('playerSong', ['SAVERECENTLIST'])
   }
 }
@@ -239,6 +239,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .footer-middle {
   display: flex;
@@ -251,11 +252,11 @@ export default {
 
   // 播放模式
   .player-button {
-    color: $them-font-color;
+    @include font_color("font_color1");
     cursor: pointer;
 
     &:hover {
-      color: $player-button-color;
+      @include font_color("font_color2");
     }
   }
 
@@ -277,14 +278,14 @@ export default {
     border-radius: 999px;
     margin-left: 2px;
     background-color: #f4f4f4;
-    color: $them-font-color;
+    @include font_color("font_color1");
 
     .pause {
       font-size: 18px;
       cursor: pointer;
 
       &:hover {
-        color: $player-button-color;
+        @include font_color("font_color2");
       }
     }
   }
@@ -294,10 +295,10 @@ export default {
   .right-control {
     font-size: 18px;
     cursor: pointer;
-    color: $them-font-color;
+    @include font_color("font_color1");
 
     &:hover {
-      color: $player-button-color;
+      @include font_color("font_color2");
     }
   }
 }
@@ -305,10 +306,10 @@ export default {
 .lyric {
   font-size: 18px;
   cursor: pointer;
-  color: $them-font-color;
+  @include font_color("font_color1");
 
   &:hover {
-    color: $player-button-color;
+    @include font_color("font_color2");
   }
 }
 
@@ -332,7 +333,7 @@ export default {
     position: relative;
     display: flex;
     justify-content: space-between;
-    color: $them-font-color;
+    @include font_color("font_color1");
     span {
       font-size: 1px;
       line-height: 1;
@@ -349,7 +350,7 @@ export default {
       margin: 4px 8px 0;
 
       .bar__slid {
-        background-color:$header-theme-color;
+        @include background_color("background_color1");
         height: 100%;
       }
     }
@@ -366,6 +367,15 @@ export default {
 ::v-deep .el-slider__button {
   width: 12px;
   height: 12px;
-  border: 2px solid $header-theme-color;
+  border: 2px solid #ec4141;
+  @include border_color("border_color1");
+}
+</style>
+
+<style lang="scss">
+@import '@/styles/_handle.scss';
+
+.el-slider__button {
+   @include border_color("border_color1");
 }
 </style>

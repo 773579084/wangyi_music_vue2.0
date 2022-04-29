@@ -23,7 +23,7 @@ export default {
   margin: 0 10px;
   border-radius: 999px;
   padding: 0 10px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #eaeaea22;
 
   .search-icon {
     opacity: 0.9;

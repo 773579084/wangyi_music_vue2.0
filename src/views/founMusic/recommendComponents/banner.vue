@@ -31,6 +31,7 @@ export default {
 
 <style scoped lang='scss'>
 @import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
   .banner-img{
     width: 100%;
@@ -49,6 +50,6 @@ export default {
     border-radius: 10px;
     font-size: 12px;
     color: white;
-    background-color: $header-theme-color;
+    @include background_color("background_color1");
   }
 </style>

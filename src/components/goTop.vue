@@ -10,10 +10,10 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
-@import '@/styles/index.scss';
+<style lang='scss'>
+@import '@/styles/_handle.scss';
 
-::v-deep .el-backtop, .el-calendar-table td.is-today {
-  color: $header-theme-color;
+.el-backtop, .el-calendar-table td.is-today {
+  @include font_color("font_color2");
 }
 </style>

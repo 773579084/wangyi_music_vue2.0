@@ -91,7 +91,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .big-box {
     display: flex;
@@ -120,8 +120,9 @@ export default {
         .music-list{
             width: 48px;
             height: 26px;
-            border: 1px solid $header-theme-color;
-            color: $header-theme-color;
+            border: 1px solid #ec4141;
+            @include border_color("border_color1");
+            @include font_color("font_color2");
             text-align: center;
             line-height: 26px;
             margin-right: 10px;
@@ -186,9 +187,9 @@ export default {
 
         .player-all {
             @extend  .button;
+            border: none;
             color: white;
-            background-color: $header-theme-color;
-            border:none;
+            @include background_color("background_color1");
 
             .player-icon{
                 @extend .button-width;
@@ -239,7 +240,7 @@ export default {
 
  .intro {
     font-size: 16px;
-    color: $nochange-color;
+    @include font_color("font_color1");
  }
 
  ::v-deep .buddha{
@@ -248,3 +249,4 @@ export default {
     border-radius: 999px;
 }
 </style>
+

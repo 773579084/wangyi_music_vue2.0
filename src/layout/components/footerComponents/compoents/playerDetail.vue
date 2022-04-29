@@ -151,7 +151,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import '@/styles/common.scss';
+@import '@/styles/_handle.scss';
 
 @keyframes rotation{
     from {-webkit-transform:  rotate(0deg);}
@@ -163,7 +163,7 @@ export default {
   top: calc(100vh - 60px);
   left: 0;
   width: 100%;
-  z-index: 300;
+  z-index: 2001;
   height: calc(100vh - 60px);
   overflow-y: auto;
   transition:top .2s linear;
@@ -190,9 +190,9 @@ export default {
   }
 
   .music-name {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 40px;
-    color: $other-font-size;
+    @include font_color("font_color1");
   }
 
   .music-author {
@@ -289,7 +289,7 @@ export default {
     // 滚动条
     overflow: auto;
     color: #616161;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: normal;
     padding: 5px 10px;
     border-left: none;
@@ -303,8 +303,8 @@ export default {
     .choose {
         height: 30px;
         line-height: 30px;
-        font-size: 20px;
-        color: $other-font-size;
+        font-size: 14px;
+        @include font_color("font_color1");
     }
 
     // 修改滚动条样式

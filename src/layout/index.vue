@@ -47,6 +47,24 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/styles/_handle.scss';
+
+.el-header {
+  @include background_color("background_color1"); // 主题背景色
+}
+//  @include font_color("font_color1");   默认色
+//  @include font_color("font_color2");   主题色
+
+// @include border_color("border_color1"); 主题颜色的边框
+
+.el-aside,.el-main,.el-footer {
+   @include background_color("background_color2");
+}
+
+.el-main {
+  @include font_color("font_color1");
+}
+
 ::v-deep .el-footer {
   padding: none;
 }

@@ -51,8 +51,6 @@
 </script>
 
 <style lang="scss">
-@import '@/styles/index.scss';
-
 ::v-deep .el-tabs__nav-wrap {
   height: 0;
 }

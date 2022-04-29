@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
  .el-carousel__item h3 {
     color: #475669;
@@ -79,11 +79,12 @@ export default {
     .font2 {
       width: 150px;
       height: 40px;
-      border: 1px solid $header-theme-color;
+      border: 1px solid #fff;
+      @include border_color("border_color1");
       text-align: center;
       line-height: 40px;
       border-radius: 5%;
-      color: $header-theme-color;
+      @include font_color("font_color2");  // 问题
       cursor: pointer;
     }
   }

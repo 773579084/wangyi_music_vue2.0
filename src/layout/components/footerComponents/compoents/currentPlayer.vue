@@ -81,13 +81,13 @@ export default {
     tableRowClassName({ row, rowIndex }) {
       // console.log(81, this.recentPlayIndex, rowIndex)
       if (rowIndex === this.recentPlayIndex) {
-        // console.log(83)
         return 'warning-row'
       }
     },
     // 播放音乐
     playSongFn(e) {
       this.saveMusic(e.id)
+      this.SAVERECENTLIST()
     },
     handleClose() {
       this.$emit('changeTableFn')
@@ -100,6 +100,7 @@ export default {
 
 <style scoped lang='scss'>
 @import '@/styles/index.scss';
+@import '@/styles/_handle.scss';
 
 .current-title {
   margin:0px 0 10px 30px;
@@ -108,13 +109,13 @@ export default {
   cursor: pointer;
 
   .title {
-    color: $other-font-size;
+      @include font_color("font_color1");
   }
 }
 
-::v-deep .el-table .warning-row {
-  color: $header-theme-color;
-}
+// ::v-deep .el-table .warning-row {
+//   color: $header-theme-color;
+// }
 
 ::v-deep .el-drawer {
   padding: 60px 0 72px 0;
@@ -123,7 +124,7 @@ export default {
 ::v-deep .el-drawer__header {
   font-size: 25px;
   font-weight: bold;
-  color: $other-font-size;
+    @include font_color("font_color1");
 }
 
 ::v-deep .has-gutter {
@@ -142,5 +143,12 @@ export default {
         background-color: #e1e1e1;
     }
 }
+</style>
 
+<style lang="scss">
+@import '@/styles/_handle.scss';
+
+.el-table .warning-row {
+  @include font_color("font_color2");
+}
 </style>
