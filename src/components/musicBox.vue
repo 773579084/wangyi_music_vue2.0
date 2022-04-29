@@ -47,6 +47,7 @@ export default {
     border-radius: 5%;
     margin-bottom: 7px;
     cursor: pointer;
+    overflow: hidden;
 
     &:hover {
 

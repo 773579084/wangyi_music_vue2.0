@@ -3,6 +3,10 @@ body {
   padding: 60px 0 72px 0;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body>.el-container {
   margin-bottom: 40px;
   height: 100%;

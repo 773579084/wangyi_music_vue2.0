@@ -303,8 +303,8 @@ export default {
     .choose {
         height: 30px;
         line-height: 30px;
-        font-size: 14px;
-        @include font_color("font_color1");
+        font-size: 15px;
+        @include font_color("font_color2");
     }
 
     // 修改滚动条样式

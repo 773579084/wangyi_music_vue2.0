@@ -83,6 +83,7 @@ export default {
 
 .clothes-icon {
   margin-left: 20px;
+  margin-top: 4px;
 }
 
 .change-color-box {

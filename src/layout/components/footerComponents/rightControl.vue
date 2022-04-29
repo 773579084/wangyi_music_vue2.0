@@ -95,8 +95,7 @@ export default {
   width: 30px;
   height: 20px;
   margin-top: 2px;
-  border: 1px solid #ec4141;
-  @include border_color("border_color1");
+  border: 1px solid #333333;
   font-size: 11px;
   @include font_color("font_color1");
   cursor: pointer;

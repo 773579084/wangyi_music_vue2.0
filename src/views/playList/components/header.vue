@@ -1,7 +1,7 @@
 <template>
   <div class="big-box">
     <div class="left">
-      <el-image lazy :src="playListData.coverImgUrl|imgSize('?param=200y200')" class="cover" />
+      <img :src="playListData.coverImgUrl|imgSize('?param=200y200')" class="cover">
     </div>
     <div class="right">
       <!-- 歌单标题 -->

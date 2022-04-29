@@ -78,13 +78,6 @@ textarea {
   border: 0;
 }
 
-::v-deep .cover {
-  display: inline-block;
-  max-width: 100%;
-  height: auto;
+.el-image__inner {
   border-radius: 5px;
-}
-
-::v-deep .el-image__inner {
-  border-radius: 5%;
 }

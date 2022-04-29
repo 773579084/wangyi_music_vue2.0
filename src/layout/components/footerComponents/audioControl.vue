@@ -63,6 +63,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
+import { getSongDetail } from '@/api'
 
 export default {
   data() {
@@ -171,36 +172,38 @@ export default {
     // 开始播放音乐
     beginFn() {
       // 开始播放音乐
-      this.beginMusic(this.$refs.audio)
-      // 改变控制组件显示隐藏
-      this.controlMusic(true)
-      // 获取当前时间
-      const vm = this
-      this.timer = window.setInterval(function() {
-        vm.currentTime = vm.currentTime + 1
-        const wordIndex = parseInt(vm.currentTime)
-        vm.saveWordIndex(wordIndex)
+      this.$nextTick(() => { //
+        this.beginMusic(this.$refs.audio)
+        // 改变控制组件显示隐藏
+        this.controlMusic(true)
+        // 获取当前时间
+        const vm = this
+        this.timer = window.setInterval(function() {
+          vm.currentTime = vm.currentTime + 1
+          const wordIndex = parseInt(vm.currentTime)
+          vm.saveWordIndex(wordIndex)
 
-        // 当前描述超过或等于总时长，就清除定时器
-        if (vm.currentTime >= vm.audioTimes) {
-          vm.currentTime = vm.audioTimes
-          clearInterval(vm.timer)
-          // 重新播放 单曲循环
-          if (vm.playOrder === 1) {
-             vm.audioTimes = 0
-             vm.currentTime = 0
-             vm.controlMusic(true)
-             vm.beginFn()
-          } else if (vm.playOrder === 2) {
-             vm.audioTimes = 0
-             vm.currentTime = 0
-             vm.controlMusic(true)
-             vm.downSongFn()
-          } else if (vm.playOrder === 3) {
-             vm.chaosPlayFn()
+          // 当前描述超过或等于总时长，就清除定时器
+          if (vm.currentTime >= vm.audioTimes) {
+            vm.currentTime = vm.audioTimes
+            clearInterval(vm.timer)
+            // 重新播放 单曲循环
+            if (vm.playOrder === 1) {
+               vm.audioTimes = 0
+               vm.currentTime = 0
+               vm.controlMusic(true)
+               vm.beginFn()
+            } else if (vm.playOrder === 2) {
+               vm.audioTimes = 0
+               vm.currentTime = 0
+               vm.controlMusic(true)
+               vm.downSongFn()
+            } else if (vm.playOrder === 3) {
+               vm.chaosPlayFn()
+            }
           }
-        }
-      }, 1000)
+        }, 1000)
+      })
     },
     // 封装乱序播放顺序
     chaosPlayFn() {

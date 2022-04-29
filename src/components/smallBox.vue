@@ -26,6 +26,8 @@ export default {
 .big {
     position: relative;
     margin-right: 10px;
+    border: 1px solid #f2f2f2;
+    border-radius: 12%;
     cursor: pointer;
 
     .music-box {
