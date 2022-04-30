@@ -1,5 +1,6 @@
-// 播放音乐背景渐变色库
+
 export default {
+  // 播放音乐页面背景渐变色
   playSongColor: [
     'linear-gradient(#ececfa,#f6f6fd,#fdfdfe,#ffff)',
     'linear-gradient(#d8d6d6,#e5e4e4,#fbfbfb,#ffff)',
@@ -11,6 +12,7 @@ export default {
     'linear-gradient(#c7c8c6,#dedfdd,#f8f8f8,#ffff)',
     'linear-gradient(#d6c7cb,#e4dadd,#f8f6f7,#ffff)'
   ],
+  // theme 主题色
   colorThem: [
     '#6f3e3f',
     '#ec4141',

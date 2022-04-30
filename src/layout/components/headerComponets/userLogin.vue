@@ -1,22 +1,378 @@
 <template>
-  <div class="user-login">
-    <div class="user-avatar">
-      <!-- <user-outlined style="font-size: 23px" /> -->
-      <svg class="icon user-icon" aria-hidden="true">
-        <use xlink:href="#icon-tubiao_yonghu" />
-      </svg>
+  <div>
+    <div class="user-login" @click="openLoginFn">
+      <!-- 个人中心头像 -->
+      <div class="user-avatar">
+        <svg class="icon user-icon" aria-hidden="true">
+          <use xlink:href="#icon-tubiao_yonghu" />
+        </svg>
+      </div>
+      <span class="no-login">
+        <span> 未登录</span>
+        <svg class="icon down-arrow" aria-hidden="true">
+          <use xlink:href="#icon-xiajiantou" />
+        </svg>
+      </span>
     </div>
-    <span class="no-login">
-      <span> 未登录</span>
-      <svg class="icon down-arrow" aria-hidden="true">
-        <use xlink:href="#icon-xiajiantou" />
+
+    <!-- 登录 -->
+    <el-card v-if="isShowBoolean" shadow="always" class="box-card login-box">
+      <!-- 关闭 -->
+      <svg class="icon close-icon" aria-hidden="true" @click="closeLoginFn">
+        <use xlink:href="#icon-tianjia_huaban" />
       </svg>
-    </span>
+
+      <!-- 扫码登录 -->
+      <div v-show="isShowIndex === 1" class="scan-code">
+        <div class="scan-title">扫码登录</div>
+        <img class="scan-img" :src="qrImg">
+        <div v-show="isShowIndex === 5" class="scan-mask">
+          <p>二维码已失效</p>
+          <el-button type="primary" @click="clickFlush">点击刷新</el-button>
+        </div>
+        <p class="scan-p">
+          使用
+          <a
+            href="https://music.163.com/#/download"
+            target="_blank"
+            style="color:#1d7bc7;"
+          >网易云音乐App
+          </a>
+          扫码登录
+        </p>
+        <div class="scan-jump" @click="goPhoneLoginFn">
+          选择其他方式登录
+          <svg class="icon right-arrow" aria-hidden="true">
+            <use xlink:href="#icon-zuo" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- 手机号码登录 -->
+      <div v-show="isShowIndex === 2" class="phone-login">
+        <!-- 扫码页跳转 -->
+        <div class="go-code" @click="goScanCodeLoginFn">
+          <svg class="icon right-arrow" aria-hidden="true">
+            <use xlink:href="#icon-zuo" />
+          </svg>
+          扫码登录
+        </div>
+
+        <div class="img-box">
+          <img class="login-img" src="@/assets/images/wangyi-login.png">
+        </div>
+        <!-- form -->
+        <div style="width:80%" class="form-login">
+          <el-form ref="form" :model="loginForm" :rules="loginRules">
+            <el-form-item prop="loginPhone">
+              <svg class="icon login-arrow" aria-hidden="true">
+                <use xlink:href="#icon-shouji" />
+              </svg>
+              <el-input v-model="loginForm.loginPhone" type="text" placeholder="请输入手机号" />
+            </el-form-item>
+            <el-form-item prop="loginPass">
+              <svg class="icon login-arrow" aria-hidden="true">
+                <use xlink:href="#icon-mima" />
+              </svg>
+              <el-input v-model="loginForm.loginPass" type="password" placeholder="请输入密码" />
+            </el-form-item>
+            <div class="login-button" @click="LoginFn">登录</div>
+
+            <div class="go-register" @click="goRegisterFn">注册 </div>
+
+            <!-- 第三方登录 -->
+            <div class="other-login">
+              <div class="other-icon icon-weixin">
+                <svg class="icon other-wei" aria-hidden="true">
+                  <use xlink:href="#icon-weixin" />
+                </svg>
+              </div>
+              <div class="other-icon icon-qq">
+                <svg class="icon other-wei " aria-hidden="true">
+                  <use xlink:href="#icon-qq" />
+                </svg>
+              </div>
+              <div class="other-icon icon-xinlang">
+                <svg class="icon other-wei" aria-hidden="true">
+                  <use xlink:href="#icon-weibo" />
+                </svg>
+              </div>
+            </div>
+
+          </el-form>
+        </div>
+      </div>
+
+      <!-- 注册 -->
+      <div v-show="isShowIndex === 3" ref="RegisterForm" class="phone-login">
+        <!-- 返回 phone login -->
+        <div class="go-code" @click="goLoginFn">
+          <svg class="icon right-arrow" aria-hidden="true">
+            <use xlink:href="#icon-zuo" />
+          </svg>
+          返回登录
+        </div>
+
+        <div class="img-box">
+          <img class="login-img" src="@/assets/images/wangyi-login.png">
+        </div>
+        <!-- form -->
+        <div style="width:80%" class="form-login">
+          <el-form ref="form" :rules="RegisterRules" :model="RegisterForm">
+            <el-form-item prop="RegisterPhone">
+              <svg class="icon login-arrow" aria-hidden="true">
+                <use xlink:href="#icon-shouji" />
+              </svg>
+              <el-input v-model="RegisterForm.RegisterPhone" type="text" placeholder="请输入手机号" />
+            </el-form-item>
+            <el-form-item prop="RegisterPass">
+              <svg class="icon login-arrow" aria-hidden="true">
+                <use xlink:href="#icon-mima" />
+              </svg>
+              <el-input v-model="RegisterForm.RegisterPass" type="password" placeholder="设置登录密码" />
+            </el-form-item>
+            <div class="login-button" @click="RegisterFn">注册</div>
+
+            <div class="other-register">其他注册方式 </div>
+
+            <!-- 第三方登录 -->
+            <div class="other-login">
+              <div class="other-icon icon-weixin">
+                <svg class="icon other-wei " aria-hidden="true">
+                  <use xlink:href="#icon-weixin" />
+                </svg>
+              </div>
+              <div class="other-icon icon-qq">
+                <svg class="icon other-wei " aria-hidden="true">
+                  <use xlink:href="#icon-qq" />
+                </svg>
+              </div>
+              <div class="other-icon icon-xinlang">
+                <svg class="icon other-wei " aria-hidden="true">
+                  <use xlink:href="#icon-weibo" />
+                </svg>
+              </div>
+            </div>
+          </el-form>
+
+        </div>
+      </div>
+
+      <!-- 待确认 -->
+      <div v-show="isShowIndex === 4" class="phone-login wait-confirm">
+        <h1>扫码登录</h1>
+        <div class="img-box">
+          <img class="login-img" src="@/assets/images/wangyi-login.png">
+        </div>
+        <div class="font1">扫描成功</div>
+        <div class="font2">请在手机确认登录</div>
+      </div>
+
+      <!-- 验证码 -->
+      <div v-show="isShowIndex === 6" class="phone-login">
+        <!-- 返回 phone login -->
+        <div class="go-code" @click="goLoginFn">
+          <svg class="icon right-arrow" aria-hidden="true">
+            <use xlink:href="#icon-zuo" />
+          </svg>
+          返回登录
+        </div>
+
+        <div class="img-box">
+          <img class="login-img" src="@/assets/images/wangyi-login.png">
+        </div>
+        <div class="font3">为了安全，我们会向你的手机发送短信校验码</div>
+        <div class="auth-code">
+          <input v-model="authCode" class="auth-input" placeholder="请填写验证码" type="text">
+          <button v-show="isShowCode" disabled class="backward-time">00:{{ countDown > 9 ? countDown : '0' + countDown }}</button>
+          <button v-show="!isShowCode" style="background-color:#ec4141;color: white;" class="backward-time" @click.prevent="againSendFn">重新发送</button>
+        </div>
+        <div class="login-button" @click="authCodeFn">下一步</div>
+      </div>
+
+    </el-card>
+
   </div>
 </template>
 
 <script>
+import { valudMobile, valudPass } from '@/utils/validate'
+import { mapActions, mapState } from 'vuex'
+import { getQRKey, createQR } from '@/api/user'
+import { polling } from '@/utils/tools'
+
 export default {
+  data() {
+    return {
+      // 登录
+      loginForm: {
+        loginPhone: null,
+        loginPass: null
+      },
+      loginRules: {
+        loginPhone: [
+          { required: true, message: '手机号码不能为空', trigger: 'blur' },
+          {
+            pattern: valudMobile(),
+            message: '手机号码格式不正确',
+            trigger: 'blur'
+          }
+        ],
+        loginPass: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          {
+            pattern: valudPass(),
+            message: '长度至少为8，含有一个字母和一个数字',
+            trigger: 'blur'
+            }
+        ]
+      },
+      // 注册
+      RegisterForm: {
+        RegisterPhone: null,
+        RegisterPass: null
+      },
+      RegisterRules: {
+        RegisterPhone: [
+          { required: true, message: '手机号码不能为空', trigger: 'blur' },
+          {
+            pattern: valudMobile(),
+            message: '手机号码格式不正确',
+            trigger: 'blur'
+          }
+        ],
+        RegisterPass: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          {
+            pattern: valudPass(),
+            message: '长度至少为8，含有一个字母和一个数字',
+            trigger: 'blur'
+           }
+        ]
+      },
+      isShowIndex: 1, // 控制登录模式切换 1为扫码 2手机登录 3为注册 4为待确认 5为失效 6验证码
+      qrImg: null, // base64 二维码
+      userCookie: null, // 用户cookie
+      authCode: '', // 验证码
+      countDown: 60, // 倒计时
+      isShowCode: true, // true:倒计时 false：重新发起请求
+      timer: null // 定时器
+    }
+  },
+  computed: {
+    ...mapState('user', ['isShowBoolean'])
+  },
+  watch: {
+    isShowBoolean: function() {
+      console.log(226, this.isShowBoolean)
+      if (this.isShowBoolean) {
+        // this.getQRFn()
+      }
+    }
+  },
+  methods: {
+    // 重新发送验证码http请求
+    againSendFn() {
+      this.isShowCode = true
+      this.countDown = 60
+      this.authCode = ''
+      this.timer = setInterval(() => {
+        this.countDown--
+        if (this.countDown === 0) {
+          clearInterval(this.timer)
+          this.isShowCode = false
+        }
+      }, 1000)
+    },
+    // 验证码发起成功后回调
+    authCodeFn() {
+      if (this.authCode.length === 4) {
+        clearInterval(this.timer)
+        this.countDown = 60
+        console.log(288)
+      } else {
+        console.log(291)
+        this.$message({
+          message: '请输入正确的验证码',
+          type: 'warning',
+          offset: 80
+        })
+      }
+    },
+    // login
+    LoginFn() {},
+    // 注册
+    RegisterFn() {
+      this.$refs.RegisterForm.validate(async(valid) => { //
+        if (valid) {
+          console.log(306, '注册')
+          this.isShowIndex = 6
+          this.timer = setInterval(() => {
+            this.countDown--
+            if (this.countDown === 0) {
+              clearInterval(this.timer)
+              this.isShowCode = false
+            }
+          }, 1000)
+        }
+      })
+    },
+    // 获取二维码
+    async getQRFn(controlTimeout) {
+      console.log(281, controlTimeout)
+      const unikey = await (await getQRKey()).data.data.unikey
+      this.qrImg = await (await createQR(unikey)).data.data.qrimg
+      // 轮询 二维码登录状态
+      const res = await polling('get', '/login/qr/check', unikey, controlTimeout)
+
+      if (res.data.code === 802) { // 待确认
+      console.log(802, res)
+        this.isShowIndex = 4
+        this.getQRFn()
+      } else if (res.data.code === 800) { // 失效
+        console.log(800, res)
+        this.isShowIndex = 5
+      } else if (res.data.code === 803) { // 成功
+        console.log(803, res)
+        this.userCookie = res.data.cookie
+        this.$message({
+          message: '恭喜你，这是一条成功消息',
+          type: 'success'
+        })
+        this.isShowFn(false) // 关闭登录页面
+        this.renderUser()
+      }
+    },
+    // 渲染数据
+    renderUser() {},
+    // 二维码过期 点击重新刷新
+    clickFlush() {
+      this.getQRFn()
+    },
+    // 关闭/open 登录
+    closeLoginFn() {
+      this.isShowFn(false)
+    },
+    openLoginFn() {
+      this.isShowFn(true)
+    },
+    // 控制注册 登录跳转
+    goPhoneLoginFn() {
+      this.isShowIndex = 2
+    },
+    goScanCodeLoginFn() {
+      this.isShowIndex = 1
+    },
+    goRegisterFn() {
+      this.isShowIndex = 3
+    },
+    goLoginFn() {
+      clearInterval(this.timer)
+      this.countDown = 60
+      this.isShowIndex = 2
+    },
+    ...mapActions('user', ['isShowFn'])
+  }
 
 }
 </script>
@@ -63,5 +419,233 @@ export default {
       color: white;
     }
   }
+}
+
+// 扫码登录
+.login-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 350px;
+  height: 480px;
+
+  .close-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 3px 3px 0 0;
+    width: 25px;
+    height: 25px;
+    transform: rotate(45deg);
+    color: #9f9f9f;
+  }
+
+  // 扫码
+  .scan-code {
+    margin: 80px 0 40px 0;
+
+    &>.scan-title {
+      text-align: center;
+      font-weight: normal;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    &>.scan-img {
+      display: block;
+      margin: auto;
+      width: 43%;
+      height: 43%;
+    }
+
+    .scan-mask {
+      position: absolute;
+      left: 108px;
+      top: 143px;
+      width: 38%;
+      height: 30%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.605);
+
+      &>P {
+        color: white;
+      }
+    }
+
+    &>.scan-p {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    &>.scan-jump {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 100px;
+      cursor: pointer;
+
+      .right-arrow {
+        width: 10px;
+        height: 10px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+// 手机登录
+.phone-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60px 0 30px 0;
+
+  .go-code {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 10px 0 0px 6px;
+    font-size: 14px;
+    cursor: pointer;
+
+    .right-arrow {
+        width: 10px;
+        height: 10px;
+        margin-bottom: 2px;
+    }
+  }
+
+  .img-box {
+    text-align: center;
+
+    .login-img {
+     width: 80%;
+    }
+  }
+
+  .form-login {
+
+    .login-arrow {
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      z-index: 200;
+      color: #aeaeae;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 40px;
+      border-radius: 5px;
+      color: white;
+      text-align: center;
+      font-size: 18px;
+      border: none;
+      line-height: 40px;
+      background-color: #ea4848;
+      cursor: pointer;
+    }
+
+    .go-register {
+      margin-top: 12px;
+      text-align: center;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .other-login {
+      display: flex;
+      justify-content: space-around;
+
+      .other-icon {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        margin-top: 20px;
+        border: 1px solid #c9c9c9;
+      }
+
+      .icon-weixin,.icon-qq,.icon-xinlang {
+        &:hover {
+          background-color: #efefef;
+        }
+      }
+
+      .other-wei {
+        width: 23px;
+        height: 23px;
+      }
+    }
+  }
+}
+
+// 注册
+.other-register {
+  margin-top: 20px;
+  font-size: 12px;
+  text-align: center;
+  color: #666666;
+}
+
+// 待确认
+.wait-confirm {
+  margin-top: 60px;
+}
+
+.font3 {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 12px;
+  color: #000;
+}
+
+// 验证码确认
+.auth-code {
+  width: 70%;
+  display: flex;
+  margin: 0px 0 30px 0;
+
+  .auth-input {
+    width: 47%;
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #d8d8d8;
+  }
+
+  .backward-time {
+    text-align: center;
+    width: 47%;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    margin-left: 6%;
+    border: 1px solid #d8d8d8;
+    background-color: #dedede;
+    color: #999999;
+  }
+}
+
+.login-button {
+  width: 70%;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  border: none;
+  line-height: 40px;
+  background-color: #ea4848;
+  cursor: pointer;
+}
+
+::v-deep .el-input__inner {
+  padding: 0 28px;
 }
 </style>

@@ -63,7 +63,6 @@
 
 <script>
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
-import { getSongDetail } from '@/api'
 
 export default {
   data() {
@@ -207,7 +206,6 @@ export default {
     },
     // 封装乱序播放顺序
     chaosPlayFn() {
-      console.log(22)
       const index = Math.floor(Math.random() * this.recentPlay.length)
       const musicId = this.recentPlay[index].id
       this.saveMusic(musicId)

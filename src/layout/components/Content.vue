@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <router-view :key="key" />
+    <router-view />
   </div>
 </template>
 

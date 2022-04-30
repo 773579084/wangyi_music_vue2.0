@@ -93,7 +93,7 @@ export default {
     .play-number {
       position: absolute;
       top: 0;
-      right: 0;
+      right: 20px;
       color: white;
       margin: 5px;
       margin-top: 7px;
