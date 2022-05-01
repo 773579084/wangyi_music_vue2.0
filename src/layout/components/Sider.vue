@@ -1,21 +1,21 @@
 <template>
   <div class="silder">
     <div @click="$router.push({name:'recommend'})">发现音乐</div>
-    <div @click="$router.push({name:'podcast'})">博客</div>
-    <div @click="$router.push({name:'video'})">视频</div>
-    <div @click="$router.push({name:'focus'})">关注</div>
-    <div @click="$router.push({name:'live'})">直播</div>
-    <div @click="$router.push({name:'privateFM'})">私人FM</div>
+    <div @click="$router.push({name:'podcast1'})">博客</div>
+    <div @click="$router.push({name:'video1'})">视频</div>
+    <div @click="$router.push({name:'focus1'})">关注</div>
+    <div @click="$router.push({name:'live1'})">直播</div>
+    <div @click="$router.push({name:'privateFM1'})">私人FM</div>
 
     <i class="my-music">我的音乐</i>
     <!-- <div class="my-music"> -->
-    <div class="download-local" @click="$router.push({name:'localDownload'})">
+    <div class="download-local" @click="$router.push({name:'localDownload1'})">
       <svg class="icon download" aria-hidden="true">
         <use xlink:href="#icon-xiazai" />
       </svg>
       <i>本地与下载</i>
     </div>
-    <div @click="$router.push({name:'recentPlay'})">
+    <div @click="$router.push({name:'recentPlay1'})">
       <svg class="icon player-icon" aria-hidden="true">
         <use xlink:href="#icon-guangqi_shijianshunxu" />
       </svg>

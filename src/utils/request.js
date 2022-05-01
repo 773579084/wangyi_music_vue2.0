@@ -2,19 +2,19 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import store from '@/store'
 
 const request = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API
   baseURL: 'http://localhost:3000',
-  timeout: 20000,
-  headers: {}
+  timeout: 20000
 })
 
 // 请求拦截器
 request.interceptors.request.use(
   (config) => {
     NProgress.start()
-    // 无论如何都要返回放行
+
     return config // 必须返回配置
   }
 )

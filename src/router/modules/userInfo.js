@@ -1,14 +1,14 @@
 import Layout from '@/layout/index.vue'
 
 export default {
-    path: '/localDownload',
+    path: '/userInfo',
     name: '',
     component: Layout,
     children: [
         {
             path: '',
-            name: 'localDownload1',
-            component: () => import('@/views/localDownload/index.vue')
+            name: 'userInfo1',
+            component: () => import('@/views/userInfo/index.vue')
         }
     ]
 }

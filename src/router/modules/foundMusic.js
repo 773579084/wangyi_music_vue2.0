@@ -2,7 +2,7 @@ import Layout from '@/layout/index.vue'
 
 export default {
     path: '/foundMusic',
-    name: 'foundMusic',
+    name: '',
     component: Layout,
     children: [
         {

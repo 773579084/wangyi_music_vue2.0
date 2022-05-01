@@ -16,9 +16,19 @@ import liveRouter from './modules/live'
 import privateFMRouter from './modules/privateFM'
 import localDownloadRouter from './modules/localDownload'
 import recentPlayRouter from './modules/recentPlay'
+import userInfoRouter from './modules/userInfo'
 
-// 合并动态路由
-export const asyncRoutes = [
+export const constantRoutes = [
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
+    redirect: '/foundMusic/recommend'
+  }
+]
+
+// 静态路由
+export const staticRoutes = [
   foundMusicRouter,
   playlistRouter,
   podcastRouter,
@@ -30,20 +40,16 @@ export const asyncRoutes = [
   recentPlayRouter
 ]
 
-export const constantRoutes = [
-  {
-    path: '/',
-    name: 'layout',
-    component: Layout,
-    redirect: '/foundMusic/recommend'
-  }
+// 动态路由
+export const asyncRoutes = [
+  userInfoRouter
 ]
 
 const createRouter = () => new Router({
   mode: 'history',
   base: '/home',
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes]
+  routes: [...constantRoutes, ...staticRoutes]
 })
 
 const router = createRouter()

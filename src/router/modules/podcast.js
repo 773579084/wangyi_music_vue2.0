@@ -2,12 +2,12 @@ import Layout from '@/layout/index.vue'
 
 export default {
     path: '/podcast',
-    name: 'podcast',
+    name: '',
     component: Layout,
     children: [
         {
             path: '',
-            name: 'podcast',
+            name: 'podcast1',
             component: () => import('@/views/podcast/index.vue')
         }
     ]

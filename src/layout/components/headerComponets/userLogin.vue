@@ -3,12 +3,13 @@
     <div class="user-login" @click="openLoginFn">
       <!-- 个人中心头像 -->
       <div class="user-avatar">
+        <img :src="userDetail.avatarUrl|imgSize('?param=30y30')" alt="">
         <svg class="icon user-icon" aria-hidden="true">
           <use xlink:href="#icon-tubiao_yonghu" />
         </svg>
       </div>
       <span class="no-login">
-        <span> 未登录</span>
+        <span>{{ userDetail.nickname?userDetail.nickname:'未登录' }} </span>
         <svg class="icon down-arrow" aria-hidden="true">
           <use xlink:href="#icon-xiajiantou" />
         </svg>
@@ -33,7 +34,7 @@
         <p class="scan-p">
           使用
           <a
-            href="https://music.163.com/#/download"
+            :href="qrurl"
             target="_blank"
             style="color:#1d7bc7;"
           >网易云音乐App
@@ -63,7 +64,7 @@
         </div>
         <!-- form -->
         <div style="width:80%" class="form-login">
-          <el-form ref="form" :model="loginForm" :rules="loginRules">
+          <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
             <el-form-item prop="loginPhone">
               <svg class="icon login-arrow" aria-hidden="true">
                 <use xlink:href="#icon-shouji" />
@@ -98,13 +99,14 @@
                 </svg>
               </div>
             </div>
+            <el-button @click="logoutFn">退出</el-button>
 
           </el-form>
         </div>
       </div>
 
       <!-- 注册 -->
-      <div v-show="isShowIndex === 3" ref="RegisterForm" class="phone-login">
+      <div v-show="isShowIndex === 3" class="phone-login">
         <!-- 返回 phone login -->
         <div class="go-code" @click="goLoginFn">
           <svg class="icon right-arrow" aria-hidden="true">
@@ -118,7 +120,7 @@
         </div>
         <!-- form -->
         <div style="width:80%" class="form-login">
-          <el-form ref="form" :rules="RegisterRules" :model="RegisterForm">
+          <el-form ref="registerForm" :rules="RegisterRules" :model="RegisterForm">
             <el-form-item prop="RegisterPhone">
               <svg class="icon login-arrow" aria-hidden="true">
                 <use xlink:href="#icon-shouji" />
@@ -197,9 +199,9 @@
 
 <script>
 import { valudMobile, valudPass } from '@/utils/validate'
-import { mapActions, mapState } from 'vuex'
-import { getQRKey, createQR } from '@/api/user'
-import { polling } from '@/utils/tools'
+import { mapActions, mapState, mapMutations } from 'vuex'
+import { getQRKey, createQR, sendAuthCode, checkAuthCode, checkPhoneRegister, phoneLoginApi, logout, userAccount } from '@/api/user'
+import request from '@/utils/request'
 
 export default {
   data() {
@@ -252,25 +254,37 @@ export default {
       },
       isShowIndex: 1, // 控制登录模式切换 1为扫码 2手机登录 3为注册 4为待确认 5为失效 6验证码
       qrImg: null, // base64 二维码
-      userCookie: null, // 用户cookie
-      authCode: '', // 验证码
+      qrurl: null, // 跳转到网易官网登录
+      authCode: '', // 用户输入验证码
       countDown: 60, // 倒计时
       isShowCode: true, // true:倒计时 false：重新发起请求
-      timer: null // 定时器
+      timer: null, // 定时器
+      codeTimer: null // 轮询定时器
     }
   },
   computed: {
-    ...mapState('user', ['isShowBoolean'])
+    ...mapState('user', ['isShowBoolean', 'userDetail', 'isLogin'])
   },
   watch: {
     isShowBoolean: function() {
       console.log(226, this.isShowBoolean)
       if (this.isShowBoolean) {
-        // this.getQRFn()
+        this.getQRFn()
       }
     }
   },
+  created() {
+    if (localStorage.getItem('userDetail_01')) {
+      this.SAVEUSERDETAIL()
+    }
+    this.USERSTATE()
+  },
   methods: {
+    // 退出登录
+    async logoutFn() {
+      const res = await logout()
+      console.log(278, res)
+    },
     // 重新发送验证码http请求
     againSendFn() {
       this.isShowCode = true
@@ -285,28 +299,90 @@ export default {
       }, 1000)
     },
     // 验证码发起成功后回调
-    authCodeFn() {
-      if (this.authCode.length === 4) {
+    async authCodeFn() {
+      if (this.authCode.length !== 0) {
         clearInterval(this.timer)
         this.countDown = 60
-        console.log(288)
+        const res = await (await checkAuthCode(this.RegisterForm.RegisterPhone, this.authCode)).data.data
+        if (res) {
+          // 判断 手机号 是否已经 注册
+          const res = await (await checkPhoneRegister(this.RegisterForm.RegisterPhone)).data
+          if (res.exist === 1) {
+            // 已注册
+            this.isShowIndex = 2
+            // 清空注册数据
+            this.RegisterForm = {
+              RegisterPhone: null,
+              RegisterPass: null
+            }
+            this.authCode = ''
+            // 提示用户已注册
+            this.$message({
+            message: '该手机号码已注册，用户名称：' + res.nickname,
+            type: 'warning',
+            offset: 80
+          })
+          } else {
+            // 未注册，跳转login -- 此模块未详细做，没有新手机号码测试
+            this.isShowIndex = 2
+          }
+        } else {
+          this.$message({
+            message: '注册失败',
+            type: 'warning',
+            offset: 80
+          })
+        }
       } else {
-        console.log(291)
+        this.authCode = ''
         this.$message({
-          message: '请输入正确的验证码',
+          message: '请勿输入空字符',
           type: 'warning',
           offset: 80
         })
       }
     },
     // login
-    LoginFn() {},
+    LoginFn() {
+      this.$refs.loginForm.validate(async(valid) => { //
+        if (valid) {
+          const res = await (await phoneLoginApi(this.loginForm.loginPhone, this.loginForm.loginPass)).data
+          // 存储用户数据
+          this.saveUserDetail(res.profile)
+          // 存储cookie
+          console.log(352, res)
+          this.loginSuccessFn(res.cookie)
+          // 清除数据
+          this.loginForm = {
+            loginPhone: null,
+            loginPass: null
+          }
+        }
+      })
+    },
+    // 登录成功后调用
+    loginSuccessFn(cookie) {
+      this.$message({
+        message: '恭喜你，登录成功',
+        type: 'success',
+        offset: 80
+      })
+      // 存储cookie
+      this.saveCookie(cookie)
+      clearTimeout(this.codeTimer)
+      this.isShowIndex = 1
+      this.userState(true)
+      // 关闭登录页面
+      this.isShowFn(false)
+    },
     // 注册
     RegisterFn() {
-      this.$refs.RegisterForm.validate(async(valid) => { //
+      this.$refs.registerForm.validate(async(valid) => { //
         if (valid) {
-          console.log(306, '注册')
           this.isShowIndex = 6
+          // 发起请求验证码
+          await sendAuthCode(this.RegisterForm.RegisterPhone)
+
           this.timer = setInterval(() => {
             this.countDown--
             if (this.countDown === 0) {
@@ -317,44 +393,71 @@ export default {
         }
       })
     },
-    // 获取二维码
-    async getQRFn(controlTimeout) {
-      console.log(281, controlTimeout)
+    // 二维码登录
+    async getQRFn() {
       const unikey = await (await getQRKey()).data.data.unikey
-      this.qrImg = await (await createQR(unikey)).data.data.qrimg
+      const qrRes = await (await createQR(unikey)).data.data
+      this.qrImg = qrRes.qrimg
+      this.qrurl = qrRes.qrurl
       // 轮询 二维码登录状态
-      const res = await polling('get', '/login/qr/check', unikey, controlTimeout)
-
-      if (res.data.code === 802) { // 待确认
-      console.log(802, res)
-        this.isShowIndex = 4
-        this.getQRFn()
-      } else if (res.data.code === 800) { // 失效
+      const res = await this.polling('get', '/login/qr/check', unikey)
+      if (res.data.code === 800) { // 失效
         console.log(800, res)
         this.isShowIndex = 5
       } else if (res.data.code === 803) { // 成功
-        console.log(803, res)
-        this.userCookie = res.data.cookie
-        this.$message({
-          message: '恭喜你，这是一条成功消息',
-          type: 'success'
-        })
-        this.isShowFn(false) // 关闭登录页面
-        this.renderUser()
+        this.loginSuccessFn(res.data.cookie)
+        const userDetail = await userAccount(this.$store.getters.token)
+        this.saveUserDetail(userDetail.data.profile)
       }
     },
-    // 渲染数据
-    renderUser() {},
+    // 轮询
+    polling(type, url, key, delay = 1000) {
+      return new Promise((resolve, reject) => {
+        request({
+          type,
+          url,
+          withCredentials: true,
+          params: {
+            key,
+            t: Date.now()
+          }
+        }).then(res => {
+          if (res.data.code === 800) {
+            clearTimeout(this.codeTimer)
+            resolve(res)
+          } else if (res.data.code === 801) {
+            console.log(58)
+            this.codeTimer = setTimeout(() => {
+              resolve(this.polling(type, url, key, delay))
+            }, delay)
+          } else if (res.data.code === 802) {
+            this.codeTimer = setTimeout(() => {
+              resolve(this.polling(type, url, key, delay))
+            }, delay)
+            console.log(64)
+            this.isShowIndex = 4
+          } else if (res.data.code === 803) {
+            resolve(res)
+          }
+        })
+      })
+    },
     // 二维码过期 点击重新刷新
     clickFlush() {
       this.getQRFn()
     },
-    // 关闭/open 登录
+    // 关闭 登录
     closeLoginFn() {
+      clearTimeout(this.codeTimer)
       this.isShowFn(false)
     },
     openLoginFn() {
-      this.isShowFn(true)
+              console.log(454, this.isLogin)
+      if (this.isLogin) {
+        this.$router.push({ name: 'userInfo1' })
+      } else {
+        this.isShowFn(true)
+      }
     },
     // 控制注册 登录跳转
     goPhoneLoginFn() {
@@ -371,9 +474,9 @@ export default {
       this.countDown = 60
       this.isShowIndex = 2
     },
-    ...mapActions('user', ['isShowFn'])
+    ...mapActions('user', ['isShowFn', 'saveUserDetail', 'saveCookie', 'userState']),
+    ...mapMutations('user', ['SAVEUSERDETAIL', 'USERSTATE'])
   }
-
 }
 </script>
 

@@ -2,7 +2,7 @@ import Layout from '@/layout/index.vue'
 
 export default {
     path: '/playlist',
-    name: 'playlist',
+    name: '',
     component: Layout,
     children: [
         {

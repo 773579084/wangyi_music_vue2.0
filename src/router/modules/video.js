@@ -2,12 +2,12 @@ import Layout from '@/layout/index.vue'
 
 export default {
     path: '/video',
-    name: 'video',
+    name: '',
     component: Layout,
     children: [
         {
             path: '',
-            name: 'video',
+            name: 'video1',
             component: () => import('@/views/video/index.vue')
         }
     ]

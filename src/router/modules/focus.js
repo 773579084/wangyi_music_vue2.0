@@ -2,12 +2,12 @@ import Layout from '@/layout/index.vue'
 
 export default {
     path: '/focus',
-    name: 'focus',
+    name: '',
     component: Layout,
     children: [
         {
             path: '',
-            name: 'focus',
+            name: 'focus1',
             component: () => import('@/views/focus/index.vue')
         }
     ]

@@ -4,6 +4,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import './permission'
+
 import ElementUI from 'element-ui'
 
 // 基础样式

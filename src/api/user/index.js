@@ -42,3 +42,40 @@ export function checkAuthCode(phone, captcha) {
   })
 }
 
+// 检验手机号码是否已注册
+export function checkPhoneRegister(phone) {
+  return request({
+    url: '/cellphone/existence/check',
+    params: {
+      phone
+    }
+  })
+}
+
+// 手机登录
+export function phoneLoginApi(phone, password) {
+  return request({
+    url: '/login/cellphone',
+    params: {
+      phone,
+      password
+    }
+  })
+}
+
+// 退出登录
+export function logout() {
+  return request({
+    url: '/logout'
+  })
+}
+
+// 获取帐号信息
+export function userAccount(cookie) {
+  return request({
+    url: '/user/account',
+    params: {
+      cookie
+    }
+  })
+}
