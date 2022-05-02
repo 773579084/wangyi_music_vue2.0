@@ -18,15 +18,6 @@ import localDownloadRouter from './modules/localDownload'
 import recentPlayRouter from './modules/recentPlay'
 import userInfoRouter from './modules/userInfo'
 
-export const constantRoutes = [
-  {
-    path: '/',
-    name: 'layout',
-    component: Layout,
-    redirect: '/foundMusic/recommend'
-  }
-]
-
 // 静态路由
 export const staticRoutes = [
   foundMusicRouter,
@@ -40,6 +31,16 @@ export const staticRoutes = [
   recentPlayRouter
 ]
 
+export const constantRoutes = [
+  {
+    path: '/',
+    name: 'layout',
+    component: Layout,
+    redirect: '/foundMusic/recommend'
+  },
+  ...staticRoutes
+]
+
 // 动态路由
 export const asyncRoutes = [
   userInfoRouter
@@ -49,7 +50,7 @@ const createRouter = () => new Router({
   mode: 'history',
   base: '/home',
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...staticRoutes]
+  routes: [...constantRoutes]
 })
 
 const router = createRouter()

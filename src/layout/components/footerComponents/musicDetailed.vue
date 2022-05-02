@@ -83,10 +83,19 @@ export default {
     }
   },
   created() {
-    // 调用vuex获取本地数据
-    this.SAVEMUSIC()
+    // 调用vuex获取本地音乐数据
+    this.getInitMusicIdFn()
   },
   methods: {
+    // 初始化音乐数据
+    getInitMusicIdFn() {
+      const id = localStorage.setItem('playerSong_01', id)
+      if (id) {
+        this.SAVEMUSIC()
+      } else {
+        this.saveMusic(1941629582)
+      }
+    },
     // 点击显示播放模式
     showMusicDetailFn() {
       this.isShowHeader(true)
@@ -98,7 +107,7 @@ export default {
       this.$refs.avatarBox.style.top = 0 + 'px'
     },
     ...mapMutations('playerSong', ['SAVEMUSIC']),
-    ...mapActions('playerSong', ['isShowHeader'])
+    ...mapActions('playerSong', ['isShowHeader', 'saveMusic'])
   }
 }
 </script>

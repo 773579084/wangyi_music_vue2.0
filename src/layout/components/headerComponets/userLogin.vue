@@ -27,7 +27,7 @@
       <div v-show="isShowIndex === 1" class="scan-code">
         <div class="scan-title">扫码登录</div>
         <img class="scan-img" :src="qrImg">
-        <div v-show="isShowIndex === 5" class="scan-mask">
+        <div v-show="isError" class="scan-mask">
           <p>二维码已失效</p>
           <el-button type="primary" @click="clickFlush">点击刷新</el-button>
         </div>
@@ -252,13 +252,14 @@ export default {
            }
         ]
       },
-      isShowIndex: 1, // 控制登录模式切换 1为扫码 2手机登录 3为注册 4为待确认 5为失效 6验证码
+      isShowIndex: 1, // 控制登录模式切换 1为扫码 2手机登录 3为注册 4为待确认  6验证码
+      isError: false, // 二维码失效
       qrImg: null, // base64 二维码
       qrurl: null, // 跳转到网易官网登录
       authCode: '', // 用户输入验证码
       countDown: 60, // 倒计时
       isShowCode: true, // true:倒计时 false：重新发起请求
-      timer: null, // 定时器
+      timer: null, // 验证码定时器
       codeTimer: null // 轮询定时器
     }
   },
@@ -350,13 +351,13 @@ export default {
           // 存储用户数据
           this.saveUserDetail(res.profile)
           // 存储cookie
-          console.log(352, res)
           this.loginSuccessFn(res.cookie)
           // 清除数据
           this.loginForm = {
             loginPhone: null,
             loginPass: null
           }
+          clearTimeout(this.codeTimer)
         }
       })
     },
@@ -403,11 +404,13 @@ export default {
       const res = await this.polling('get', '/login/qr/check', unikey)
       if (res.data.code === 800) { // 失效
         console.log(800, res)
-        this.isShowIndex = 5
+        this.isShowIndex = 1
+        this.isError = true
       } else if (res.data.code === 803) { // 成功
         this.loginSuccessFn(res.data.cookie)
         const userDetail = await userAccount(this.$store.getters.token)
         this.saveUserDetail(userDetail.data.profile)
+        clearTimeout(this.codeTimer)
       }
     },
     // 轮询
@@ -444,6 +447,7 @@ export default {
     },
     // 二维码过期 点击重新刷新
     clickFlush() {
+      this.isError = false
       this.getQRFn()
     },
     // 关闭 登录
@@ -452,9 +456,9 @@ export default {
       this.isShowFn(false)
     },
     openLoginFn() {
-              console.log(454, this.isLogin)
+        console.log(454, this.isLogin)
       if (this.isLogin) {
-        this.$router.push({ name: 'userInfo1' })
+        this.$router.push('/userInfo/')
       } else {
         this.isShowFn(true)
       }
