@@ -44,7 +44,7 @@ export default {
     },
     created() {
       this.getData()
-    },
+  },
     methods: {
       async getData() {
         const res = await (await newsong(12)).data.result

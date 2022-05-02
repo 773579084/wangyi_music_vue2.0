@@ -89,12 +89,7 @@ export default {
   methods: {
     // 初始化音乐数据
     getInitMusicIdFn() {
-      const id = localStorage.setItem('playerSong_01', id)
-      if (id) {
         this.SAVEMUSIC()
-      } else {
-        this.saveMusic(1941629582)
-      }
     },
     // 点击显示播放模式
     showMusicDetailFn() {

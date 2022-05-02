@@ -42,6 +42,25 @@ export default {
   },
   computed: {
     ...mapState('playerSong', ['playHeaderShow'])
+  },
+  created() {
+    const musicId = localStorage.getItem('playerSong_01')
+    console.log(48, musicId)
+    if (musicId) {
+      console.log(57, '有Id')
+    } else {
+      console.log(57, '无Id')
+      this.getMusicIdFn(1941629582)
+    }
+  },
+  methods: {
+    getMusicIdFn(id) {
+      // 存储音乐id
+      this.$store.dispatch('playerSong/saveMusic', id)
+      // 加工数据
+      const newSongList = this.mixCurrentPlay(this.newSongList)
+      this.$store.dispatch('playerSong/saveRecentList', newSongList)
+    }
   }
 }
 </script>
