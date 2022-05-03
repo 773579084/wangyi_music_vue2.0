@@ -456,7 +456,6 @@ export default {
       this.isShowFn(false)
     },
     openLoginFn() {
-        console.log(454, this.isLogin)
       if (this.isLogin) {
         this.$router.push('/userInfo/')
       } else {

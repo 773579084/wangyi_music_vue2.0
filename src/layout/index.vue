@@ -30,7 +30,10 @@ import Sider from './components/Sider.vue'
 import Content from './components/Content.vue'
 import Footer from './components/Footer.vue'
 import playerDetailVue from './components/footerComponents/compoents/playerDetail.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+// 获取初始化数据的接口
+import { newsong } from '@/api/foundMusic/recommend'
+import { getMusicUrl } from '@/api/playerSong'
 
 export default {
   components: {
@@ -50,7 +53,7 @@ export default {
       console.log(57, '有Id')
     } else {
       console.log(57, '无Id')
-      this.getMusicIdFn(1941629582)
+      this.initMusicDetail()
     }
   },
   methods: {
@@ -60,6 +63,23 @@ export default {
       // 加工数据
       const newSongList = this.mixCurrentPlay(this.newSongList)
       this.$store.dispatch('playerSong/saveRecentList', newSongList)
+    },
+        // 用户第一次登录初始化
+    async initMusicDetail(context) {
+      const newSongList = await (await newsong()).data.result
+      // 加工数据
+      const SongList = this.mixCurrentPlay(newSongList)
+      console.log(121)
+      localStorage.setItem('recentList_01', JSON.stringify(SongList))
+
+      const musicId = newSongList[0].id
+      localStorage.setItem('playerSong_01', musicId)
+
+      const musicUrl = await (await getMusicUrl(musicId)).data.data[0].url
+
+      localStorage.setItem('musicURL_01', musicUrl)
+      localStorage.setItem('recentPlayIndex_01', 0)
+      window.location.reload()
     }
   }
 }

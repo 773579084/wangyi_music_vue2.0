@@ -57,7 +57,7 @@
     </div>
 
     <!-- 音乐播放控件 -->
-    <audio ref="audio" :autoplay="isAudio" :src="songUrl||''" />
+    <audio ref="audio" :autoplay="isAudio" :src="songUrl" />
   </div>
 </template>
 
@@ -169,7 +169,7 @@ export default {
       this.$refs.audio.currentTime = this.currentTime
     },
     // 开始播放音乐
-    beginFn() {
+    async beginFn() {
       // 开始播放音乐
       this.$nextTick(() => { //
         this.beginMusic(this.$refs.audio)

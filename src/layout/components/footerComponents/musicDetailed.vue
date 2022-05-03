@@ -108,7 +108,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/index.scss';
 @import '@/styles/_handle.scss';
 
 .four-button {
