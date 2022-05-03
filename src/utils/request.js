@@ -2,12 +2,10 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import store from '@/store'
 
 const request = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API
-  baseURL: 'http://localhost:3000',
-  timeout: 20000
+  baseURL: 'http://localhost:3000'
 })
 
 // 请求拦截器
