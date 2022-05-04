@@ -1,4 +1,4 @@
-import { getToken, removeToken, setToken, setTimeStamp } from '@/utils/auth'
+import { getToken, setToken, setTimeStamp } from '@/utils/auth'
 
 export default {
   namespaced: true,
@@ -6,7 +6,8 @@ export default {
     isShowBoolean: false, // 控制登录页面显示和隐藏
     userDetail: {}, // 存储用户详情
     token: getToken(), // 用户cookie
-    isLogin: null // 用户登录状态
+    isLogin: null, // 用户登录状态
+    isRouterBoolean: false // 管理动态路由添加
   },
   mutations: {
     // 存储token
@@ -32,6 +33,10 @@ export default {
       } else {
         state.isLogin = false
       }
+    },
+    // 更改动态路由添加
+    CONTROLROUTES(state) {
+      state.isRouterBoolean = localStorage.getItem('isRouterBoolean_01')
     }
   },
   actions: {
@@ -53,6 +58,11 @@ export default {
     userState(context, state) {
       localStorage.setItem('userState_01', state)
       context.commit('USERSTATE')
+    },
+    // 更改动态路由添加
+    controlRoutes(context, valueBoolean) {
+      localStorage.setItem('isRouterBoolean_01', valueBoolean)
+      context.commit('CONTROLROUTES')
     }
   }
 }

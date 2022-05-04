@@ -129,16 +129,22 @@ export default {
     // 获取歌曲信息
     async getSongDetail() {
       // 获取歌曲信息
-      const res = await (await getSongDetail(this.id)).data.songs
-      this.songDetail = new SongDetail(res)
-      // 获取歌词
-      const resWord = await (await getMusicWord(this.id)).data.lrc.lyric
-      this.disposeWord(resWord)
-      // 获取歌曲评论
-      const resComments = await (await getMusicComment(this.id, 20)).data
-      this.MusicComments.commentCount = resComments.total
-      this.isShowComment = true
-      this.changeBackColor()
+        let musicId = null
+        if (this.id) {
+          musicId = this.id
+        } else {
+          musicId = localStorage.getItem('playerSong_01')
+        }
+        const res = await (await getSongDetail(musicId)).data.songs
+        this.songDetail = new SongDetail(res)
+        // 获取歌词
+        const resWord = await (await getMusicWord(musicId)).data.lrc.lyric
+        this.disposeWord(resWord)
+        // 获取歌曲评论
+        const resComments = await (await getMusicComment(this.id, 20)).data
+        this.MusicComments.commentCount = resComments.total
+        this.isShowComment = true
+        this.changeBackColor()
     },
     // 动态变换 背景颜色
     changeBackColor() {

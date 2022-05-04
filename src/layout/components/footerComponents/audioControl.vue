@@ -96,8 +96,10 @@ export default {
       // 清除原来数据
       this.audioTimes = 0
       this.currentTime = 0
-      // 重播音乐
-      this.beginFn()
+      if (this.isAudio) {
+        // 重播音乐
+        this.beginFn()
+      }
     },
     // 监听barwidth 一变动 按钮变动
     barWidth: function(newValue) {
@@ -105,7 +107,7 @@ export default {
     }
 
   },
-  async created() {
+  created() {
     this.currentTime = 1
   },
   mounted() {

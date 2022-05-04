@@ -34,13 +34,17 @@ export default {
   },
   created() {
     this.colorThemList = List.colorThem
-    // console.log(32, this.colorThemList)
+    const index = localStorage.getItem('theme-color_01')
+    this.changeColor(Number(index))
   },
   methods: {
     changeColorFn(e) {
       const index = Number(e.target.dataset.index)
+      localStorage.setItem('theme-color_01', index)
       this.isShowIconIndex = index
-
+      this.changeColor(index)
+    },
+    changeColor(index) {
       // 判断索引值更改颜色
       if (index === 0) {
         window.document.documentElement.setAttribute('data-theme', 'themeRedWine')

@@ -9,7 +9,7 @@ import { staticRoutes } from '@/router/index'
 
 router.beforeEach(async (to, from, next) => {
   if (store.getters.token) {
-    if (!store.getters.userId) {
+    if (!store.getters.isRouterBoolean) {
       // 创建新路由，解决动态路由覆盖问题
       const constantRouterMap = [
         {
@@ -27,7 +27,7 @@ router.beforeEach(async (to, from, next) => {
         router.addRoutes(params) // 添加路由
       }
       router.onReady(() => {
-        store.dispatch('permission/saveRoutes') // 请求动态路由
+        store.dispatch('permission/saveRoutes')
           .then(e => {
             router.addRoutes(e) // 添加动态路由,这里不必用$addRoutes，因为刷新后就没有上一次的动态路由，故不必清除
           })
@@ -35,7 +35,7 @@ router.beforeEach(async (to, from, next) => {
     }
     next()
   } else {
-    const blackArr = ['/userInfo']
+    const blackArr = ['/userInfo/']
     if (blackArr.indexOf(to.path) !== -1) {
       next('/')
     }

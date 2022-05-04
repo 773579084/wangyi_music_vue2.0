@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   computed: {
@@ -89,7 +89,8 @@ export default {
   methods: {
     // 初始化音乐数据
     getInitMusicIdFn() {
-        this.SAVEMUSIC()
+      const id = localStorage.getItem('playerSong_01')
+      this.saveMusic(id)
     },
     // 点击显示播放模式
     showMusicDetailFn() {
@@ -101,7 +102,6 @@ export default {
       this.isShowHeader(false)
       this.$refs.avatarBox.style.top = 0 + 'px'
     },
-    ...mapMutations('playerSong', ['SAVEMUSIC']),
     ...mapActions('playerSong', ['isShowHeader', 'saveMusic'])
   }
 }

@@ -199,7 +199,7 @@
 
 <script>
 import { valudMobile, valudPass } from '@/utils/validate'
-import { mapActions, mapState, mapMutations } from 'vuex'
+import { mapActions, mapState, mapMutations, mapGetters } from 'vuex'
 import { getQRKey, createQR, sendAuthCode, checkAuthCode, checkPhoneRegister, phoneLoginApi, logout, userAccount } from '@/api/user'
 import request from '@/utils/request'
 
@@ -264,21 +264,22 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['isShowBoolean', 'userDetail', 'isLogin'])
+    ...mapState('user', ['isShowBoolean', 'userDetail', 'isLogin']),
+    ...mapGetters(['userId'])
   },
   watch: {
     isShowBoolean: function() {
-      console.log(226, this.isShowBoolean)
       if (this.isShowBoolean) {
         this.getQRFn()
+      } else {
+        clearTimeout(this.codeTimer)
       }
     }
   },
   created() {
-    if (localStorage.getItem('userDetail_01')) {
-      this.SAVEUSERDETAIL()
-    }
+    if (localStorage.getItem('userDetail_01')) { this.SAVEUSERDETAIL() }
     this.USERSTATE()
+    if (this.userId) { this.CONTROLROUTES() }
   },
   methods: {
     // 退出登录
@@ -352,12 +353,14 @@ export default {
           this.saveUserDetail(res.profile)
           // 存储cookie
           this.loginSuccessFn(res.cookie)
+          this.controlRoutes(true)
           // 清除数据
           this.loginForm = {
             loginPhone: null,
             loginPass: null
           }
           clearTimeout(this.codeTimer)
+          window.location.reload()
         }
       })
     },
@@ -410,7 +413,9 @@ export default {
         this.loginSuccessFn(res.data.cookie)
         const userDetail = await userAccount(this.$store.getters.token)
         this.saveUserDetail(userDetail.data.profile)
+        this.controlRoutes(true)
         clearTimeout(this.codeTimer)
+        window.location.reload()
       }
     },
     // 轮询
@@ -477,8 +482,8 @@ export default {
       this.countDown = 60
       this.isShowIndex = 2
     },
-    ...mapActions('user', ['isShowFn', 'saveUserDetail', 'saveCookie', 'userState']),
-    ...mapMutations('user', ['SAVEUSERDETAIL', 'USERSTATE'])
+    ...mapActions('user', ['isShowFn', 'saveUserDetail', 'saveCookie', 'userState', 'controlRoutes']),
+    ...mapMutations('user', ['SAVEUSERDETAIL', 'USERSTATE', 'CONTROLROUTES'])
   }
 }
 </script>
