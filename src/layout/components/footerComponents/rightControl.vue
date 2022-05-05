@@ -74,7 +74,7 @@ export default {
 
 .right {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   width: 100%;
 
   .player-button {
@@ -99,6 +99,10 @@ export default {
   font-size: 11px;
   @include font_color("font_color1");
   cursor: pointer;
+}
+
+.icon {
+  margin-left: 30px;
 }
 
 ::v-deep .el-slider__button {

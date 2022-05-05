@@ -137,6 +137,7 @@ export default {
         }
         const res = await (await getSongDetail(musicId)).data.songs
         this.songDetail = new SongDetail(res)
+        this.changeBackColor()
         // 获取歌词
         const resWord = await (await getMusicWord(musicId)).data.lrc.lyric
         this.disposeWord(resWord)
@@ -144,7 +145,6 @@ export default {
         const resComments = await (await getMusicComment(this.id, 20)).data
         this.MusicComments.commentCount = resComments.total
         this.isShowComment = true
-        this.changeBackColor()
     },
     // 动态变换 背景颜色
     changeBackColor() {

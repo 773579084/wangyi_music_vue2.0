@@ -4,7 +4,20 @@ export default {
   namespaced: true,
   state: {
     isShowBoolean: false, // 控制登录页面显示和隐藏
-    userDetail: {}, // 存储用户详情
+    userDetail: {
+      userId: '',
+      authority: '',
+      avatarUrl: '',
+      birthday: '',
+      city: '',
+      followeds: '',
+      follows: '',
+      gender: '',
+      level: '',
+      nickname: '',
+      province: '',
+      signature: ''
+    }, // 存储用户详情
     token: getToken(), // 用户cookie
     isLogin: null, // 用户登录状态
     isRouterBoolean: false // 管理动态路由添加

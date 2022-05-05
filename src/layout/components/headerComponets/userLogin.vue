@@ -99,7 +99,6 @@
                 </svg>
               </div>
             </div>
-            <el-button @click="logoutFn">退出</el-button>
 
           </el-form>
         </div>
@@ -200,7 +199,7 @@
 <script>
 import { valudMobile, valudPass } from '@/utils/validate'
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex'
-import { getQRKey, createQR, sendAuthCode, checkAuthCode, checkPhoneRegister, phoneLoginApi, logout, userAccount } from '@/api/user'
+import { getQRKey, createQR, sendAuthCode, checkAuthCode, checkPhoneRegister, phoneLoginApi, userAccount } from '@/api/user'
 import request from '@/utils/request'
 
 export default {
@@ -282,11 +281,6 @@ export default {
     if (this.userId) { this.CONTROLROUTES() }
   },
   methods: {
-    // 退出登录
-    async logoutFn() {
-      const res = await logout()
-      console.log(278, res)
-    },
     // 重新发送验证码http请求
     againSendFn() {
       this.isShowCode = true

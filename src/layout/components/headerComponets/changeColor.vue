@@ -35,6 +35,7 @@ export default {
   created() {
     this.colorThemList = List.colorThem
     const index = localStorage.getItem('theme-color_01')
+    this.isShowIconIndex = Number(index)
     this.changeColor(Number(index))
   },
   methods: {

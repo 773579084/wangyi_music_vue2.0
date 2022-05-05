@@ -79,3 +79,32 @@ export function userAccount(cookie) {
     }
   })
 }
+
+// 获取帐号详情信息
+export function getUserDetail(uid) {
+  return request({
+    url: '/user/detail',
+    params: {
+      uid
+    }
+  })
+}
+
+// 个人信息加工
+export class UserAccount {
+  constructor(user) {
+    if (!user) return
+    this.userId = user.profile.userId
+    this.level = user.level
+    this.nickname = user.profile.nickname
+    this.avatarUrl = user.profile.avatarUrl
+    this.province = user.profile.province
+    this.city = user.profile.city
+    this.gender = user.profile.gender // 0保密 1 男 2女
+    this.birthday = user.profile.birthday
+    this.signature = user.profile.signature // 个人介绍
+    this.follows = user.profile.follows // 关注
+    this.followeds = user.profile.followeds // 粉丝
+    this.authority = user.profile.authority // 动态
+  }
+}

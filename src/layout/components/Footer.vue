@@ -14,7 +14,7 @@
     </el-col>
     <!-- 右模块 -->
     <el-col :span="6">
-      <el-row type="flex" justify="center">
+      <el-row>
         <rightControl />
       </el-row>
     </el-col>
