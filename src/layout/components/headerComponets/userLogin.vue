@@ -507,7 +507,6 @@ export default {
 
   .no-login {
     position: relative;
-    color: #fad5d5;
 
     span {
       margin-right: 4px;

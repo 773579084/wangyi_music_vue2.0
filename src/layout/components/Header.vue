@@ -97,24 +97,15 @@ export default {
 // 换肤
 .change-skin {
   margin-left: 15px;
-  color: #fad5d5;
+  color: white;
   font-size: 18px;
   cursor: pointer;
-
-  &:hover {
-    color: white;
-  }
 }
 
 // 设置
 .set-icon {
   margin-left: 10px;
   cursor: pointer;
-  color: #fad5d5;
-
-  &:hover {
-    color: white;
-  }
 }
 
 .github-icon{

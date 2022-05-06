@@ -47,10 +47,5 @@ export default {
   font-size: 18px;
   margin-left: 15px;
   cursor: pointer;
-  color: #fad5d5;
-
-  &:hover {
-    color: white;
-  }
 }
 </style>

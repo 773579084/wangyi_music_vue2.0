@@ -11,12 +11,14 @@
           <el-row>
             <el-col :span="18">
               <span class="level">Lv{{ userDetail.level }}</span>
+
               <!-- 女 -->
               <em v-if="userDetail.gender === 2" class="gender2">
                 <svg class="icon icon2" aria-hidden="true">
                   <use xlink:href="#icon-nv" />
                 </svg>
               </em>
+
               <!-- 男 -->
               <em v-if="userDetail.gender === 1" class="gender0">
                 <svg class="icon icon0" aria-hidden="true">
@@ -35,7 +37,7 @@
           </el-row>
         </div>
 
-        <!-- 下半部分内容 -->
+        <!-- 详细 信息 -->
         <div class="focus-on">
           <div class="focus-child1">
             <div class="focus-math">{{ userDetail.authority }}</div>
@@ -49,13 +51,19 @@
             <div>{{ userDetail.followeds }}</div>
             <div class="font-style">粉丝</div>
           </div>
+
+          <!-- 推出登录 -->
           <div class="quit-user edit-user" @click="logoutFn">
             退出登录
           </div>
         </div>
+
+        <!-- 所在地区 -->
         <div class="font-color">
-          所在地区:
+          所在地区: <i>{{ userDetail.province }} {{ userDetail.city }}</i>
         </div>
+
+        <!-- 个人介绍 -->
         <div class="font-color">
           <el-collapse>
             <el-collapse-item :title="`个人介绍：`" name="1">
@@ -70,7 +78,8 @@
 </template>
 
 <script>
-import { getUserDetail, UserAccount, logout } from '@/api/user'
+import { getUserDetail, UserAccount, logout, getRegionApi } from '@/api/user'
+import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -99,7 +108,11 @@ export default {
       this.userId = JSON.parse(localStorage.getItem('userDetail_01')).userId
       const res = await (await getUserDetail(this.userId)).data
       this.userDetail = new UserAccount(res)
-      console.log(25, this.userDetail)
+      this.userDetail.province = await (await getRegionApi(this.userDetail.province, 0)).data.districts[0].name
+
+      this.userDetail.city = await (await getRegionApi(this.userDetail.city, 0)).data.districts[0].name
+
+      this.saveProvinceAct([this.userDetail.province, this.userDetail.city])
     },
         // 退出登录
     async logoutFn() {
@@ -109,7 +122,9 @@ export default {
     // 跳转编辑个人信息详情
     goEidtUserFn() {
       this.$router.push('/userInfo/editUser')
-    }
+    },
+    /* vuex */
+    ...mapActions('user', ['saveProvinceAct'])
   }
 }
 </script>
@@ -229,6 +244,11 @@ export default {
     color:#373737;
     font-size: 14px;
     margin: 6px 0;
+
+    &>i {
+      font-size: 13px;
+      color: #676767;
+    }
   }
 
   .quit-user {

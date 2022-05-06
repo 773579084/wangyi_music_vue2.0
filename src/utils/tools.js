@@ -26,3 +26,38 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
 
+/** 时间戳转化为标砖时间
+ * @param msec  时间戳
+ */
+
+export function msToDate(msec) {
+  console.log(34, msec)
+  const datetime = new Date(msec)
+  const year = datetime.getFullYear()
+  const month = datetime.getMonth()
+  const date = datetime.getDate()
+  const hour = datetime.getHours()
+  const minute = datetime.getMinutes()
+  const second = datetime.getSeconds()
+
+  const result1 = year +
+    '-' +
+    ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+    '-' +
+    ((date + 1) < 10 ? '0' + date : date) +
+    ' ' +
+    ((hour + 1) < 10 ? '0' + hour : hour) +
+    ':' +
+    ((minute + 1) < 10 ? '0' + minute : minute) +
+    ':' +
+    ((second + 1) < 10 ? '0' + second : second)
+
+  const timeData = formatterDate(result1)
+
+  return timeData
+}
+
+function formatterDate(result1) {
+  const result = new Date(result1)
+  return result
+}

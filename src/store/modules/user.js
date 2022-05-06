@@ -50,6 +50,11 @@ export default {
     // 更改动态路由添加
     CONTROLROUTES(state) {
       state.isRouterBoolean = localStorage.getItem('isRouterBoolean_01')
+    },
+    /* 存储 用户 省市 */
+    SAVEPROVINCE(state, arr) {
+      state.userDetail.province = arr[0]
+      state.userDetail.city = arr[1]
     }
   },
   actions: {
@@ -76,6 +81,10 @@ export default {
     controlRoutes(context, valueBoolean) {
       localStorage.setItem('isRouterBoolean_01', valueBoolean)
       context.commit('CONTROLROUTES')
+    },
+    /* 存储 用户 省市 */
+    saveProvinceAct(context, arr) {
+      context.commit('SAVEPROVINCE', arr)
     }
   }
 }

@@ -1,7 +1,9 @@
 <template>
   <div ref="avatarBox" class="footer-left">
+
     <!-- 四大按钮 -->
     <el-row type="flex" style="width:250px" class="four-button">
+
       <!-- 下滑 -->
       <el-col :span="5">
         <svg class="icon down-arrow" aria-hidden="true" @click="hiddenFn">
@@ -10,24 +12,28 @@
       </el-col>
       <el-col :span="19">
         <el-row type="flex">
+
           <!-- 喜欢 -->
           <el-col :span="6" class="icon-back">
             <svg class="icon collect" aria-hidden="true">
               <use xlink:href="#icon-aixin" />
             </svg>
           </el-col>
+
           <!-- 收藏 -->
           <el-col :span="6" class="icon-back">
             <svg class="icon collect" aria-hidden="true">
               <use xlink:href="#icon-xinjianwenjian" />
             </svg>
           </el-col>
+
           <!-- 下载 -->
           <el-col :span="6" class="icon-back">
             <svg class="icon collect" aria-hidden="true">
               <use xlink:href="#icon-xiazai" />
             </svg>
           </el-col>
+
           <!-- 分享 -->
           <el-col :span="6" class="icon-back">
             <svg class="icon collect" aria-hidden="true">
@@ -172,7 +178,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.3);
 
     .up-arrow {
-      @include font_color("font_color1");
+      color: white;
       font-size: 20px;
       margin-top: 5px;
       transform: rotate(90deg);
@@ -219,7 +225,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-      color: #000;
+      color: #fff;
     }
   }
 

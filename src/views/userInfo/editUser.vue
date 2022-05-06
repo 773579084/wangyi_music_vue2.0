@@ -4,82 +4,150 @@
     <el-row type="flex">
       <el-col :span="14">
         <el-form abel-width="100px">
+
+          <!-- 昵称 -->
           <el-form-item label="昵称:">
-            <el-input v-model="userDetail.nickname" placeholder="请输入昵称" />
+            <el-input v-model="userList.nickname" placeholder="请输入昵称" />
           </el-form-item>
+
+          <!-- 自我介绍 -->
           <el-form-item label="介绍:">
-            <el-input v-model="userDetail.signature" :rows="4" placeholder="请输入自我介绍" maxlength="300" show-word-limit type="textarea" />
+            <el-input v-model="userList.signature" :rows="4" placeholder="请输入自我介绍" maxlength="300" show-word-limit type="textarea" />
           </el-form-item>
+
+          <!-- 生日 -->
           <el-form-item label="生日：">
-            <el-date-picker v-model="userDetail.birthday" style="width:85%" popper-class type="date" placeholder="您的生日" />
+            <el-date-picker v-model="userList.birthday" style="width:85%" popper-class placeholder="您的生日" />
           </el-form-item>
+
+          <!-- 性别 -->
           <el-form-item label="性别：">
-            <el-radio-group v-model="userDetail.gender">
+            <el-radio-group v-model="userList.gender">
               <el-radio :label="0">保密</el-radio>
               <el-radio :label="1">男</el-radio>
               <el-radio :label="2">女</el-radio>
             </el-radio-group>
           </el-form-item>
+
           <!-- 地区 -->
           <el-form-item label="地区：">
-            <el-select v-model="userDetail.province" placeholder="请选择">
+            <el-select v-model="userList.province" placeholder="请选择" @change="changeProvinceFn">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in provinceArr"
+                :key="item.adcode"
+                :label="item.name"
+                :value="item.adcode"
               />
             </el-select>
-            <el-select v-model="userDetail.city" class="right-select" placeholder="请选择">
+            <el-select v-model="userList.city" class="right-select" placeholder="请选择" @change="changeCityFn">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in cityArr"
+                :key="item.adcode"
+                :label="item.name"
+                :value="item.adcode"
               />
             </el-select>
           </el-form-item>
+
+          <!-- 保存 取消 -->
           <div class="btn">
-            <el-button class="save" round>保存</el-button>
+            <el-button class="save" round @click="saveUserFn">保存</el-button>
             <el-button round>取消</el-button>
           </div>
 
         </el-form>
       </el-col>
+
+      <!-- 头像 -->
       <el-col :span="8" class="avatar-box">
         <el-upload
+          action="#"
           class="avatar-uploader"
           :show-file-list="false"
-          :on-success="handleAvatarSuccess"
+          :on-success="handleAvatarSuccessFn"
         >
-          <el-image v-if="imgAvatar" :src="imgAvatar|imgSize('?param=150y150')" class="avatar" />
+          <el-image v-if="userList.imgAvatar" :src="userList.imgAvatar|imgSize('?param=150y150')" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
         <div class="edit-avatar-btn">
           点击图片修改头像
         </div>
+
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+import { getRegionApi, updateUserApi } from '@/api/user'
+import { msToDate } from '@/utils/tools'
 
 export default {
     data() {
         return {
-            imgAvatar: ''
+            userList: {
+              userId: '',
+              nickname: '',
+              imgAvatar: '',
+              province: '',
+              city: '',
+              signature: '',
+              birthday: '',
+              gender: ''
+            },
+            provinceArr: [],
+            cityArr: [],
+            provinceId: '', // 省 id
+            cityId: '' // 市 id
         }
     },
     computed: {
-        ...mapState('user', ['userDetail'])
+        ...mapState('user', ['userDetail']),
+        ...mapGetters(['token'])
     },
     created() {
-        this.imgAvatar = this.userDetail.avatarUrl
+        this.userList = this.userDetail
+        const timeData = msToDate(this.userList.birthday)
+        this.userList.birthday = timeData
+        this.getProvinceFn()
+        this.getCityFn(this.userList.province)
     },
     methods: {
-      handleAvatarSuccess(res, file) {
+      /* 保存用户数据 */
+      async saveUserFn() {
+        const birthday = new Date(this.userList.birthday).getTime()
+        const gender = this.userList.gender
+        const nickname = this.userList.nickname
+        const province = this.userList.province
+        const city = this.userList.city
+        const signature = this.userList.signature
+        const cookie = this.token
+        console.log(124, gender, birthday, nickname, province, city, signature, cookie)
+        const res = await updateUserApi(birthday, gender, nickname, province, city, signature, cookie)
+        console.log(126, res)
+      },
+      /* 获得省级区域 */
+      async getProvinceFn() {
+        const resProvince = await (await getRegionApi('', '')).data.districts[0].districts
+        this.provinceArr = resProvince
+      },
+      /* 获得城市list */
+      async getCityFn(data) {
+        const resCity = await (await getRegionApi(data, '')).data.districts[0].districts
+        this.cityArr = resCity
+      },
+      /* 拿到 省 */
+      changeProvinceFn(e) {
+        this.provinceId = Number(e)
+        this.getCityFn(this.userList.province)
+      },
+      /* 拿到 市 */
+      changeCityFn(e) {
+        this.cityId = Number(e)
+      },
+      /* 头像上传触发 */
+      handleAvatarSuccessFn(res, file) {
           console.log(76, file)
       }
     }
@@ -119,5 +187,4 @@ export default {
 .right-select {
     margin-left: 20px;
 }
-
 </style>

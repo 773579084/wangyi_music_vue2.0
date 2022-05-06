@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import axios from 'axios'
 
 // 获取二维码的 key
 export function getQRKey() {
@@ -86,6 +87,34 @@ export function getUserDetail(uid) {
     url: '/user/detail',
     params: {
       uid
+    }
+  })
+}
+
+/* 获取行政区域 */
+export function getRegionApi(keywords, subdistrict = 2) {
+  return axios({
+    url: 'https://restapi.amap.com/v3/config/district',
+    params: {
+      keywords,
+      subdistrict,
+      key: '2620fe1e0ef4e972d9a9d8ca4d0fffa6'
+    }
+  })
+}
+
+/* 修改个人用户信息 */
+export function updateUserApi(gender, birthday, nickname, province, city, signature, cookie) {
+  return request({
+    url: '/user/update',
+    params: {
+      gender,
+      birthday,
+      nickname,
+      province,
+      city,
+      signature,
+      cookie
     }
   })
 }
