@@ -104,17 +104,22 @@ export function getRegionApi(keywords, subdistrict = 2) {
 }
 
 /* 修改个人用户信息 */
-export function updateUserApi(gender, birthday, nickname, province, city, signature, cookie) {
+export function updateUserApi(updateList, cookie) {
   return request({
     url: '/user/update',
     params: {
-      gender,
-      birthday,
-      nickname,
-      province,
-      city,
-      signature,
+      ...updateList,
       cookie
+    }
+  })
+}
+
+/* 判断昵称 是否占用 */
+export function checkNicknameApi(nickname) {
+  return request({
+    url: '/nickname/check',
+    params: {
+      nickname
     }
   })
 }

@@ -31,7 +31,6 @@ function padLeftZero(str) {
  */
 
 export function msToDate(msec) {
-  console.log(34, msec)
   const datetime = new Date(msec)
   const year = datetime.getFullYear()
   const month = datetime.getMonth()

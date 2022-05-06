@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { getRegionApi, updateUserApi } from '@/api/user'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import { getRegionApi, updateUserApi, getUserDetail, checkNicknameApi } from '@/api/user'
 import { msToDate } from '@/utils/tools'
 
 export default {
@@ -106,14 +106,24 @@ export default {
         ...mapState('user', ['userDetail']),
         ...mapGetters(['token'])
     },
+    watch: {
+      userDetail: function() {
+        console.log(111)
+        this.getData(this.userDetail)
+      }
+    },
     created() {
-        this.userList = this.userDetail
-        const timeData = msToDate(this.userList.birthday)
-        this.userList.birthday = timeData
-        this.getProvinceFn()
-        this.getCityFn(this.userList.province)
+      this.getData(this.userDetail)
+      this.getProvinceFn()
+      this.getCityFn(this.userList.province)
     },
     methods: {
+      /* 初始化数据 */
+      getData(data) {
+        this.userList = { ...data }
+        const timeData = msToDate(data.birthday)
+        this.userList.birthday = timeData
+      },
       /* 保存用户数据 */
       async saveUserFn() {
         const birthday = new Date(this.userList.birthday).getTime()
@@ -123,9 +133,55 @@ export default {
         const city = this.userList.city
         const signature = this.userList.signature
         const cookie = this.token
-        console.log(124, gender, birthday, nickname, province, city, signature, cookie)
-        const res = await updateUserApi(birthday, gender, nickname, province, city, signature, cookie)
-        console.log(126, res)
+
+        const updateList = {}
+        let duplicated = ''
+
+        if (gender !== this.userDetail.gender) {
+          updateList.gender = gender
+        }
+        if (birthday !== this.userDetail.birthday) {
+           updateList.birthday = birthday
+        }
+        if (nickname !== this.userDetail.nickname) {
+            updateList.nickname = nickname
+            console.log(146)
+            duplicated = await (await checkNicknameApi(nickname)).data.duplicated
+        }
+        if (province !== this.userDetail.province) {
+            updateList.province = province
+        }
+        if (city !== this.userDetail.city) {
+            updateList.city = city
+        }
+        if (signature !== this.userDetail.signature) {
+            updateList.signature = signature
+        }
+
+        if (duplicated) {
+            this.$message({
+              message: '昵称已被占用！',
+              type: 'warning',
+              offset: 80
+            })
+            return
+        }
+
+          console.log(143, updateList)
+          const res = await updateUserApi(updateList, cookie)
+          console.log(173, res)
+          debugger
+          if (res.data.code === 200) {
+            this.$message({
+              message: '修改成功！',
+              type: 'success',
+              offset: 80
+            })
+            /* 更新vuex user里的数据 */
+            const userList = await (await getUserDetail(this.userList.userId)).data.profile
+            console.log(183, userList)
+            this.saveUserDetail(userList)
+          }
       },
       /* 获得省级区域 */
       async getProvinceFn() {
@@ -139,17 +195,19 @@ export default {
       },
       /* 拿到 省 */
       changeProvinceFn(e) {
-        this.provinceId = Number(e)
+        this.provinceId = e
         this.getCityFn(this.userList.province)
       },
       /* 拿到 市 */
       changeCityFn(e) {
-        this.cityId = Number(e)
+        this.cityId = e
       },
       /* 头像上传触发 */
       handleAvatarSuccessFn(res, file) {
           console.log(76, file)
-      }
+      },
+      /* vuex */
+      ...mapActions('user', ['saveUserDetail'])
     }
 }
 </script>

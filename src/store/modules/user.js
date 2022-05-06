@@ -1,4 +1,5 @@
 import { getToken, setToken, setTimeStamp } from '@/utils/auth'
+import { getRegionApi } from '@/api/user'
 
 export default {
   namespaced: true,
@@ -13,7 +14,6 @@ export default {
       followeds: '',
       follows: '',
       gender: '',
-      level: '',
       nickname: '',
       province: '',
       signature: ''
@@ -34,6 +34,7 @@ export default {
     // 存储/获取 用户基本数据
     SAVEUSERDETAIL(state) {
       const userRes = JSON.parse(localStorage.getItem('userDetail_01'))
+
       if (userRes) {
         state.userDetail = userRes
       }
@@ -68,8 +69,13 @@ export default {
       context.commit('ISSHOWFN', Boolean)
     },
     // 存储 用户基本数据
-    saveUserDetail(context, Obj) {
-      localStorage.setItem('userDetail_01', JSON.stringify(Obj))
+    async saveUserDetail(context, Obj) {
+      const userObj = { ...Obj }
+      userObj.province = await (await getRegionApi(userObj.province, 0)).data.districts[0].name
+
+      userObj.city = await (await getRegionApi(userObj.city, 0)).data.districts[0].name
+
+      localStorage.setItem('userDetail_01', JSON.stringify(userObj))
       context.commit('SAVEUSERDETAIL')
     },
     // 用户登录状态
