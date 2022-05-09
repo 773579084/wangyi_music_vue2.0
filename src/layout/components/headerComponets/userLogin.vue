@@ -340,9 +340,11 @@ export default {
     },
     // login
     LoginFn() {
+      console.log(343)
       this.$refs.loginForm.validate(async(valid) => { //
         if (valid) {
           const res = await (await phoneLoginApi(this.loginForm.loginPhone, this.loginForm.loginPass)).data
+          console.log(346, res.profile)
           // 存储用户数据
           this.saveUserDetail(res.profile)
           // 存储cookie

@@ -101,3 +101,30 @@ export default {
   padding: none;
 }
 </style>
+
+<style lang="scss">
+@import "@/styles/_handle.scss";
+
+.el-radio__input.is-checked+.el-radio__label {
+  @include font_color("font_color2");
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  @include background_color("background_color1");
+  @include border_color("border_color1");
+}
+
+.el-date-table td.current:not(.disabled) span,.el-pagination.is-background .el-pager li:not(.disabled).active,.el-button--primary {
+  @include background_color("background_color1");
+}
+
+.el-radio__inner:hover,.el-range-editor.is-active, .el-range-editor.is-active:hover, .el-select .el-input.is-focus .el-input__inner,.el-input.is-active .el-input__inner, .el-input__inner:focus,.el-textarea__inner:focus {
+   @include border_color("border_color1");
+}
+
+.el-button:focus, .el-button:hover {
+  @include border_color("border_color1");
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled):hover { color: #606266!important;}
+</style>

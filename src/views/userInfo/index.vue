@@ -2,10 +2,10 @@
   <div>
     <!-- 头部 -->
     <el-row type="flex">
-      <el-col :span="6">
-        <el-image :src="userDetail.avatarUrl|imgSize('?param=210y210')" alt="" />
+      <el-col :span="5">
+        <img class="user-ava" :src="userDetail.avatarUrl|imgSize('?param=210y210')" alt="">
       </el-col>
-      <el-col class="userDetail-box" :span="18">
+      <el-col class="userDetail-box" :span="19">
         <div class="top-Info">
           <div class="nickname">{{ userDetail.nickname }}</div>
           <el-row>
@@ -116,21 +116,28 @@ export default {
     },
         // 退出登录
     async logoutFn() {
-      const res = await logout()
-      console.log(278, res)
+      logout()
+      this.removeUser()
+      this.$router.push('/')
     },
     // 跳转编辑个人信息详情
     goEidtUserFn() {
       this.$router.push('/userInfo/editUser')
     },
     /* vuex */
-    ...mapActions('user', ['saveProvinceAct'])
+    ...mapActions('user', ['saveProvinceAct', 'removeUser'])
   }
 }
 </script>
 
 <style scoped lang='scss'>
 @import '@/styles/_handle.scss';
+
+.user-ava {
+  width: 210px;
+  height: 210px;
+  border-radius: 999px;
+}
 
 .userDetail-box {
   position: relative;

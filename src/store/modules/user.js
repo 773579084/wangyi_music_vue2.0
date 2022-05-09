@@ -1,4 +1,4 @@
-import { getToken, setToken, setTimeStamp } from '@/utils/auth'
+import { getToken, setToken, setTimeStamp, removeToken } from '@/utils/auth'
 import { getRegionApi } from '@/api/user'
 
 export default {
@@ -19,7 +19,7 @@ export default {
       signature: ''
     }, // 存储用户详情
     token: getToken(), // 用户cookie
-    isLogin: null, // 用户登录状态
+    isLogin: false, // 用户登录状态
     isRouterBoolean: false // 管理动态路由添加
   },
   mutations: {
@@ -43,7 +43,7 @@ export default {
     USERSTATE(state) {
       const state1 = localStorage.getItem('userState_01')
       if (state1) {
-        state.isLogin = Boolean(state1)
+        state.isLogin = true
       } else {
         state.isLogin = false
       }
@@ -56,6 +56,15 @@ export default {
     SAVEPROVINCE(state, arr) {
       state.userDetail.province = arr[0]
       state.userDetail.city = arr[1]
+    },
+    /* 清除cookie 及 用户数据 */
+    REMOVEUSER(state) {
+      removeToken()
+      state.userDetail = {}
+      state.token = ''
+      state.isLogin = false
+      localStorage.removeItem('userDetail_01')
+      localStorage.removeItem('userState_01')
     }
   },
   actions: {
@@ -91,6 +100,10 @@ export default {
     /* 存储 用户 省市 */
     saveProvinceAct(context, arr) {
       context.commit('SAVEPROVINCE', arr)
+    },
+    /* 清除cookie 及 用户数据 */
+    removeUser(context) {
+      context.commit('REMOVEUSER')
     }
   }
 }
